@@ -37,6 +37,7 @@ defmodule Launchpad.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
+     {:passport, git: "https://github.com/opendrops/passport.git"},
      {:cowboy, "~> 1.0"}]
   end
 
