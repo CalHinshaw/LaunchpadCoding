@@ -19,7 +19,7 @@ defmodule Launchpad.Mixfile do
   def application do
     [mod: {Launchpad, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :absinthe, :absinthe_plug]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,6 +38,8 @@ defmodule Launchpad.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:passport, git: "https://github.com/opendrops/passport.git"},
+     {:absinthe, "~> 1.2.0"},
+     {:absinthe_plug, "~> 1.2.0-rc.0"},
      {:cowboy, "~> 1.0"}]
   end
 

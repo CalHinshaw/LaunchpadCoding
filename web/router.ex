@@ -11,8 +11,21 @@ defmodule Launchpad.Router do
     plug :current_user
   end
 
+  pipeline :graphql do
+    plug :fetch_session
+    plug :current_user
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/" do
+    pipe_through :graphql
+
+    get "/graphiql", Absinthe.Plug.GraphiQL, schema: Launchpad.Schema
+    post "/graphiql", Absinthe.Plug.GraphiQL, schema: Launchpad.Schema
+    forward "/graphql", Absinthe.Plug, schema: Launchpad.Schema
   end
 
   scope "/", Launchpad do
