@@ -6,4 +6,12 @@ defmodule Launchpad.Schema.Types do
     field :email, :string
     field :is_admin, :boolean
   end
+
+  object :skill do
+    field :name, :string
+    field :description, :string
+
+    field :next_skills, list_of(:skill)
+    field :prev_skills, list_of(:skill)
+  end
 end
