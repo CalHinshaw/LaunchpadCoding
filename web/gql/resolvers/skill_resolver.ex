@@ -1,0 +1,16 @@
+defmodule Launchpad.Resolver.Skill do
+  alias Launchpad.Repo
+
+  def all(_args, _info) do
+    {:ok, Repo.all(Launchpad.Skill)}
+  end
+
+  def next_skills(skill, _, _) do
+    next_skills = 
+      skill
+      |> Ecto.assoc(:next_skills)
+      |> Repo.all
+
+    {:ok, next_skills}
+  end
+end
