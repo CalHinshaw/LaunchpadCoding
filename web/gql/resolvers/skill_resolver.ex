@@ -1,4 +1,4 @@
-defmodule Launchpad.Resolver.Skill do
+defmodule Launchpad.Resolvers.Skill do
   alias Launchpad.Repo
 
   def all(_args, _info) do
