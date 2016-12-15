@@ -1,9 +1,7 @@
 defmodule Launchpad.SessionController do
   use Launchpad.Web, :controller
 
-  alias Launchpad.User
   alias Passport.Session
-
 
   def new(conn, _) do
     conn
