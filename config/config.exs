@@ -26,6 +26,9 @@ config :passport,
   resource: Launchpad.Models.User,
   repo: Launchpad.Repo
 
+config :absinthe,
+  schema: Launchpad.Schema
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
