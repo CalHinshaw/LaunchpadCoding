@@ -14,6 +14,9 @@ defmodule Launchpad.Schema.Types do
     field :next_skills, list_of(:skill) do
       resolve &Launchpad.Resolver.Skill.next_skills/3
     end
-    field :prev_skills, list_of(:skill)
+
+    field :prev_skills, list_of(:skill) do
+      resolve &Launchpad.Resolver.Skill.prev_skills/3
+    end
   end
 end
