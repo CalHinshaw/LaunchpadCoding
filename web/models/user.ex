@@ -1,4 +1,4 @@
-defmodule Launchpad.User do
+defmodule Launchpad.Models.User do
   use Launchpad.Web, :model
   alias Passport.Password
 

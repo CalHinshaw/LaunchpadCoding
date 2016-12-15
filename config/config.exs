@@ -23,7 +23,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :passport,
-  resource: Launchpad.User,
+  resource: Launchpad.Models.User,
   repo: Launchpad.Repo
 
 

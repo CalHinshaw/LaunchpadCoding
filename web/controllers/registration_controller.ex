@@ -1,10 +1,10 @@
 defmodule Launchpad.RegistrationController do
   use Launchpad.Web, :controller
 
-  alias Launchpad.User
+  alias Launchpad.Models.User
 
   def new(conn, _params) do
-    changeset = User.changeset(%Launchpad.User{})
+    changeset = User.changeset(%User{})
     conn
     |> render(:new, changeset: changeset)
   end

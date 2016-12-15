@@ -2,7 +2,7 @@ defmodule Launchpad.Resolver.Skill do
   alias Launchpad.Repo
 
   def all(_args, _info) do
-    {:ok, Repo.all(Launchpad.Skill)}
+    {:ok, Repo.all(Launchpad.Models.Skill)}
   end
 
   def next_skills(skill, _, _) do
