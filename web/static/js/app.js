@@ -8,6 +8,7 @@ import Relay from 'react-relay'
 import useRelay from 'react-router-relay'
 
 import SkillIndex from './pages/skills/SkillIndex'
+import NotFound from './pages/misc/NotFound'
 
 const ViewerQuery = {
   viewer: () => Relay.QL`query { viewer }`
@@ -25,6 +26,7 @@ const router = (
         component={SkillIndex}
         queries={ViewerQuery}>
       </Route>
+      <Route path="*" component={NotFound} />
     </Route>
   </Router>
 );
