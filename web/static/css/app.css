@@ -60,6 +60,15 @@ form.link, form.button {
   margin: 35px 0;
 }
 
+.skill-node {
+  width: 250px;
+  padding: 5px;
+  margin: 5px;
+
+  background-color: gainsboro;
+  border-radius: 5px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */

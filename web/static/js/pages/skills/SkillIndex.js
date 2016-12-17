@@ -4,9 +4,16 @@ import Relay from 'react-relay'
 class SkillIndex extends React.Component {
 
   render() {
-    console.log(this.props.viewer.skills.edges)
+    const skills = this.props.viewer.skills.edges.map((e) => e.node);
+    
     return (
-      <p>Hello from SkillIndex!</p>
+      <div>
+        {skills.map((skill, k) => <div key={k} className="skill-node">
+          <b>{skill.name}</b>
+          <br />
+          {skill.description}
+        </div>)}
+      </div>
     );
   }
 
