@@ -24,7 +24,7 @@
             <% end %>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <span><h1 class="logo">Launchpad Coding</h1></span>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

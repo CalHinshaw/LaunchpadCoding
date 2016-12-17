@@ -1,6 +1,6 @@
 <div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+  <h2>Learn Real World Programming Skills</h2>
+  <p class="lead">that will help you understand the world around you<br />and find success in today's economy.</p>
 </div>
 
 <div class="row marketing">
