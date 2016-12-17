@@ -41,6 +41,8 @@ defmodule Launchpad.Router do
     post "/register", RegistrationController, :create
     get "/passwords/new", PasswordController, :new
     post "/passwords", PasswordController, :reset
+
+    get "/*path", AppController, :app
   end
 
   # Other scopes may use custom stacks.

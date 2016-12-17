@@ -22,11 +22,11 @@ const router = (
     <Route path="/">
       <Route
         path="skills"
-        component="SkillIndex"
+        component={SkillIndex}
         queries={ViewerQuery}>
       </Route>
     </Route>
   </Router>
 );
 
-render(router, document.getElementbyId('app'));
+render(router, document.getElementById('app'));

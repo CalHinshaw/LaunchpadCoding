@@ -28,7 +28,7 @@ defmodule Launchpad.Schema do
     end
 
     field :viewer, :viewer do
-      resolve fn(_, _) -> {:ok, %{}} end
+      resolve fn(_, _) -> {:ok, %{id: 1}} end
     end
   end
 end
