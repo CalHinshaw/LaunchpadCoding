@@ -2,6 +2,16 @@ defmodule Launchpad.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation
 
+
+  # Note, skill_edge must be above skill or it thinks all skills are skill edges
+  # i think it might be a bug...
+  connection node_type: :skill_edge
+
+  node object :skill_edge do
+    field :next_skill, :skill
+    field :prev_skill, :skill
+  end
+
   connection node_type: :user
 
   node object :user do
@@ -56,6 +66,16 @@ defmodule Launchpad.Schema.Types do
           pagination_args
         )
         {:ok, skills}
+      end
+    end
+
+    connection field :skill_edges, node_type: :skill_edge do
+      resolve fn pagination_args, _info ->
+        skill_edges = Absinthe.Relay.Connection.from_list(
+          Launchpad.Resolvers.SkillEdge.all(),
+          pagination_args
+        )
+        {:ok, skill_edges}
       end
     end
   end

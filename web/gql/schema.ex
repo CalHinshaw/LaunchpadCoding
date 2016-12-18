@@ -24,6 +24,8 @@ defmodule Launchpad.Schema do
           Launchpad.Resolvers.Skill.find(id, %{})
         %{type: :user, id: id}, _ ->
           Launchpad.Resolvers.User.find(id, %{})
+        %{type: :skill_edge, id: id}, _ ->
+          Launchpad.Resolvers.SkillEdge.find(id, %{})
       end
     end
 
