@@ -10,4 +10,16 @@ defmodule Launchpad.Resolvers.SkillEdge do
     Repo.all(SkillEdge)
   end
 
+  def next_skill(skill, _ \\ nil, _ \\ nil) do
+    skill
+    |> Ecto.assoc(:next_skill)
+    |> Repo.one
+  end
+
+  def prev_skill(skill, _ \\ nil, _ \\ nil) do
+    skill
+    |> Ecto.assoc(:prev_skill)
+    |> Repo.one
+  end
+
 end
