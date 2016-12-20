@@ -8,15 +8,23 @@ defmodule Launchpad.Schema.Types do
     field :name, :string
     field :description, :string
 
-    field :next_skills, list_of(:skill) do
-      resolve fn _, %{source: skill} ->
-        {:ok, Launchpad.Resolvers.Skill.next_skills(skill)}
+    connection field :next_skills, node_type: :skill do
+      resolve fn pagination_args, %{source: skill} ->
+        connection = Absinthe.Relay.Connection.from_list(
+          Launchpad.Resolvers.Skill.next_skills(skill),
+          pagination_args
+        )
+        {:ok, connection}
       end
     end
 
-    field :prev_skills, list_of(:skill) do
-      resolve fn _, %{source: skill} ->
-        {:ok, Launchpad.Resolvers.Skill.prev_skills(skill)}
+    connection field :prev_skill, node_type: :skill do
+      resolve fn pagination_args, %{source: skill} ->
+        connection = Absinthe.Relay.Connection.from_list(
+          Launchpad.Resolvers.Skill.prev_skill(skill),
+          pagination_args
+        )
+        {:ok, connection}
       end
     end
   end
@@ -46,9 +54,14 @@ defmodule Launchpad.Schema.Types do
       end
     end
 
-    field :skill_arrows, list_of(:skill_arrow) do
-      resolve fn _, _info ->
-        {:ok, Launchpad.Resolvers.SkillArrow.all()}
+    connection field :skill_arrows, node_type: :skill_arrow do
+      resolve fn pagination_args, _info ->
+        connection = Absinthe.Relay.Connection.from_list(
+          Launchpad.Resolvers.SkillArrow.all(),
+          pagination_args
+        )
+
+        {:ok, connection}
       end
     end
   end
