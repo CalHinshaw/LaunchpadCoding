@@ -1,25 +1,29 @@
-defmodule Launchpad.Resolvers.SkillEdge do
+defmodule Launchpad.Resolvers.SkillArrow do
   alias Launchpad.Repo
-  alias Launchpad.Models.SkillEdge
+  alias Launchpad.Models.SkillArrow
 
   def find(id, _info \\ nil) do
-    {:ok, Repo.get(SkillEdge, id)}
+    {:ok, Repo.get(SkillArrow, id)}
   end
 
   def all(_args \\ nil, _info \\ nil) do
-    Repo.all(SkillEdge)
+    Repo.all(SkillArrow)
   end
 
   def next_skill(skill, _ \\ nil, _ \\ nil) do
-    skill
+    s = skill
     |> Ecto.assoc(:next_skill)
     |> Repo.one
+
+    {:ok, s}
   end
 
   def prev_skill(skill, _ \\ nil, _ \\ nil) do
-    skill
+    s =skill
     |> Ecto.assoc(:prev_skill)
     |> Repo.one
+
+    {:ok, s}
   end
 
 end

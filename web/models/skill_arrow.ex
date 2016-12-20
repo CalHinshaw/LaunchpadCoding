@@ -1,8 +1,8 @@
-defmodule Launchpad.Models.SkillEdge do
+defmodule Launchpad.Models.SkillArrow do
   use Launchpad.Web, :model
   alias Launchpad.Models.Skill
 
-  schema "skill_edges" do
+  schema "skill_arrows" do
     belongs_to :prev_skill, Skill
     belongs_to :next_skill, Skill
   end

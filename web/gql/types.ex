@@ -2,88 +2,53 @@ defmodule Launchpad.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation
 
+  connection node_type: :skill
 
-  # Note, skill_edge must be above skill or it thinks all skills are skill edges
-  # i think it might be a bug...
-  connection node_type: :skill_edge
+  node object :skill do
+    field :name, :string
+    field :description, :string
 
-  node object :skill_edge do
-    # field :next_skill, :skill do
-    #   resolve &Launchpad.Resolvers.SkillEdge.next_skill/3
-    # end
-
-    # field :prev_skill, :skill do
-    #   resolve &Launchpad.Resolvers.SkillEdge.prev_skill/3
-    # end
-  end
-
-  connection node_type: :user
-
-  node object :user do
-    field :id, :id
-    field :email, :string
-    field :is_admin, :boolean
-  end
-
-  # connection node_type: :skill
-
-  # node object :skill do
-  #   field :name, :string
-  #   field :description, :string
-
-  #   connection field :next_skills, node_type: :skill do
-  #     resolve fn pagination_args, %{source: skill} ->
-  #         connection = Absinthe.Relay.Connection.from_list(
-  #           Launchpad.Resolvers.Skill.next_skills(skill),
-  #           pagination_args
-  #         )
-  #         {:ok, connection}
-  #     end
-  #   end
-
-  #   connection field :prev_skills, node_type: :skill do
-  #     resolve fn pagination_args, %{source: skill} ->
-  #         connection = Absinthe.Relay.Connection.from_list(
-  #           Launchpad.Resolvers.Skill.prev_skills(skill),
-  #           pagination_args
-  #         )
-  #         {:ok, connection}
-  #     end
-  #   end
-  # end
-
-
-  node object :viewer do
-    connection field :users, node_type: :user do
-      resolve fn pagination_args, _info ->
-        users = Absinthe.Relay.Connection.from_list(
-          Launchpad.Resolvers.User.all(),
-          pagination_args
-        )
-        {:ok, users}
+    field :next_skills, list_of(:skill) do
+      resolve fn _, %{source: skill} ->
+        {:ok, Launchpad.Resolvers.Skill.next_skills(skill)}
       end
     end
 
-    # connection field :skills, node_type: :skill do
-    #   resolve fn pagination_args, _info ->
-    #     skills = Absinthe.Relay.Connection.from_list(
-    #       Launchpad.Resolvers.Skill.all(),
-    #       pagination_args
-    #     )
-    #     {:ok, skills}
-    #   end
-    # end
+    field :prev_skills, list_of(:skill) do
+      resolve fn _, %{source: skill} ->
+        {:ok, Launchpad.Resolvers.Skill.prev_skills(skill)}
+      end
+    end
+  end
 
-    connection field :skill_edges, node_type: :skill_edge do
+  connection node_type: :skill_arrow
+
+  node object :skill_arrow do
+    field :next_skill, :skill do
+      resolve &Launchpad.Resolvers.SkillArrow.next_skill/3
+    end
+
+    field :prev_skill, :skill do
+      resolve &Launchpad.Resolvers.SkillArrow.prev_skill/3
+    end
+  end
+
+
+  node object :viewer do
+    connection field :skills, node_type: :skill do
       resolve fn pagination_args, _info ->
-        skill_edges = Absinthe.Relay.Connection.from_list(
-          Launchpad.Resolvers.SkillEdge.all(),
+        connection = Absinthe.Relay.Connection.from_list(
+          Launchpad.Resolvers.Skill.all(),
           pagination_args
         )
 
-        IO.puts inspect skill_edges
+        {:ok, connection}
+      end
+    end
 
-        {:ok, skill_edges}
+    field :skill_arrows, list_of(:skill_arrow) do
+      resolve fn _, _info ->
+        {:ok, Launchpad.Resolvers.SkillArrow.all()}
       end
     end
   end
