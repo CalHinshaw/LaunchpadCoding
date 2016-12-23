@@ -50,13 +50,17 @@ export default Relay.createContainer(SkillIndex, {
               id
               name
               description
-              nextSkills(first: 10) {
-                edges {
-                  node {
-                    id
-                    name
-                  }
-                }
+            }
+          }
+        }
+        skillArrows(first: 100) {
+          edges {
+            node {
+              prevSkill {
+                id
+              }
+              nextSkill {
+                id
               }
             }
           }

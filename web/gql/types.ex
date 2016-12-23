@@ -21,7 +21,7 @@ defmodule Launchpad.Schema.Types do
     connection field :prev_skill, node_type: :skill do
       resolve fn pagination_args, %{source: skill} ->
         connection = Absinthe.Relay.Connection.from_list(
-          Launchpad.Resolvers.Skill.prev_skill(skill),
+          Launchpad.Resolvers.Skill.prev_skills(skill),
           pagination_args
         )
         {:ok, connection}
