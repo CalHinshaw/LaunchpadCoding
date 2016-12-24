@@ -9,6 +9,7 @@ import { ApolloProvider } from 'react-apollo'
 import SkillIndex from './pages/skills/SkillIndex'
 import NotFound from './pages/misc/NotFound'
 
+const client = new ApolloClient();
 
 const router = (
   <ApolloProvider client={client}>

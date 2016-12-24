@@ -1,11 +1,10 @@
 import React from 'react'
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
-
-console.log(Vertex)
-
-const toVertex = (skill) => {
+const toVertex = (skill, k) => {
   return (
-    <div key={skill.id} className="skill-node">
+    <div key={k} className="skill-node">
       <b>{skill.name}</b>
       <br />
       {skill.description}
@@ -16,7 +15,9 @@ const toVertex = (skill) => {
 
 class SkillIndex extends React.Component {
   render() {
-    const skills = this.props.viewer.skills.edges.map((e) => e.node);
+    if (this.props.data.loading) return <div />;
+
+    const skills = this.props.data.skills;
     
     return (
       <div>
@@ -27,32 +28,16 @@ class SkillIndex extends React.Component {
 
 }
 
-export default Relay.createContainer(SkillIndex, {
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        skills(first: 100) {
-          edges {
-            node {
-              id
-              name
-              description
-            }
-          }
-        }
-        skillArrows(first: 100) {
-          edges {
-            node {
-              prevSkill {
-                id
-              }
-              nextSkill {
-                id
-              }
-            }
-          }
-        }
-      }
-    `
+const query = gql`query skillIndex {
+  skills {
+    name
+    description
   }
-});
+
+  skillArrows {
+    prevSkill { name }
+    nextSkill { name }
+  }
+}`;
+
+export default graphql(query)(SkillIndex)
