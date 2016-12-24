@@ -12,7 +12,7 @@ defmodule Launchpad.Models.User do
   end
 
   def changeset(model, params \\ :empty) do model
-    |> cast(params, ~w(email), [])
+    |> cast(params, ~w(email is_admin), [])
     |> validate_length(:email, min: 1, max: 150)
     |> unique_constraint(:email)
   end
