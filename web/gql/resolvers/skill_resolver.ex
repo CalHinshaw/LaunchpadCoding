@@ -7,18 +7,23 @@ defmodule Launchpad.Resolvers.Skill do
   end
 
   def all(_args \\ nil, _info \\ nil) do
-    Repo.all(Skill)
+    IO.puts Repo.all(Skill)
+    {:ok, Repo.all(Skill)}
   end
 
   def next_skills(skill, _ \\ nil, _ \\ nil) do
-    skill
+    skills = skill
     |> Ecto.assoc(:next_skills)
     |> Repo.all
+
+    {:ok, skills}
   end
 
   def prev_skills(skill, _ \\ nil, _ \\ nil) do
-    skill
+    skills = skill
     |> Ecto.assoc(:prev_skills)
     |> Repo.all
+
+    {:ok, skills}
   end
 end

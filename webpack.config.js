@@ -17,8 +17,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel",
         query: {
-          presets: ["es2015", "react"],
-          plugins: [path.join(__dirname, './relayPlugin')]
+          presets: ["es2015", "react"]
         }
       }
     ]
