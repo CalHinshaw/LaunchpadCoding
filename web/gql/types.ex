@@ -6,11 +6,11 @@ defmodule Launchpad.Schema.Types do
     field :description, :string
 
     field :next_skills, list_of(:skill) do
-      resolve &Launchpad.Resolvers.Skill.next_skills/2
+      resolve &Launchpad.Resolvers.Skill.next_skills/3
     end
 
     field :prev_skills, list_of(:skill) do
-      resolve &Launchpad.Resolvers.Skill.prev_skills/2
+      resolve &Launchpad.Resolvers.Skill.prev_skills/3
     end
   end
 
