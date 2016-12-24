@@ -13,6 +13,6 @@ defmodule Launchpad.Resolvers.User do
   end
 
   def all(_args \\ nil, _info \\ nil) do
-    Repo.all(User)
+    {:ok, Repo.all(User)}
   end
 end

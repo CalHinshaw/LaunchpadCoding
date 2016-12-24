@@ -8,5 +8,13 @@ defmodule Launchpad.Schema do
     field :skills, list_of(:skill) do
       resolve &Launchpad.Resolvers.Skill.all/2
     end
+
+    field :skill_arrows, list_of(:skill_arrow) do
+      resolve &Launchpad.Resolvers.SkillArrow.all/2
+    end
+
+    field :users, list_of(:user) do
+      resolve &Launchpad.Resolvers.User.all/2
+    end
   end
 end

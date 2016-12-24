@@ -7,7 +7,7 @@ defmodule Launchpad.Resolvers.SkillArrow do
   end
 
   def all(_args \\ nil, _info \\ nil) do
-    Repo.all(SkillArrow)
+    {:ok, Repo.all(SkillArrow)}
   end
 
   def next_skill(skill, _ \\ nil, _ \\ nil) do
