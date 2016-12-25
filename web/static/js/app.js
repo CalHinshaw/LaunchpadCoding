@@ -7,6 +7,7 @@ import ApolloClient from 'apollo-client'
 import { ApolloProvider } from 'react-apollo'
 
 import SkillIndex from './pages/skills/SkillIndex'
+import ShowSkill from './pages/skills/ShowSkill'
 import NotFound from './pages/misc/NotFound'
 
 const client = new ApolloClient();
@@ -16,6 +17,7 @@ const router = (
     <Router history={ browserHistory } >
       <Route path="/">
         <Route path="skills" component={SkillIndex}/>
+        <Route path="skills/:skillId" component={ShowSkill}/>
         <Route path="*" component={NotFound}/>
       </Route>
     </Router>

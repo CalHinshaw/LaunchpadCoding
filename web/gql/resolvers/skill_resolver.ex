@@ -2,7 +2,7 @@ defmodule Launchpad.Resolvers.Skill do
   alias Launchpad.Repo
   alias Launchpad.Models.Skill
 
-  def find(id, _info) do
+  def find(%{skill_id: id}, _info) do
     {:ok, Repo.get(Skill, id)}
   end
 
