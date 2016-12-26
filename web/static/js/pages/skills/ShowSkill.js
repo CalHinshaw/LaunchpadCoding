@@ -62,22 +62,28 @@ const initFunc = function(interpreter, scope) {
     const skill = this.props.data.skill;
     
     return (
-      <div>
+      <div style={{width: 1050, display: "block", marginLeft: "auto", marginRight: "auto"}}>
         <h1>{skill.name}</h1>
         <p>{skill.description}</p>
 
-        <AceEditor
-          ref="editor"
-          mode="javascript"
-          theme="tomorrow"
-          name="UNIQUE_ID_OF_DIV"
-          editorProps={{$blockScrolling: true}}
-          onChange={this.updateEditorText.bind(this)}
-          value={this.editorText}
-        />
-
         <div>
-          {this.interpOutput}
+          <div style={{display: "inline-block"}}>
+            <AceEditor
+              height="300"
+              width="500"
+              ref="editor"
+              mode="javascript"
+              theme="tomorrow"
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{$blockScrolling: true}}
+              onChange={this.updateEditorText.bind(this)}
+              value={this.editorText}
+            />
+          </div>
+
+          <div style={{display: "inline-block", width: 500, marginLeft: 15}}>
+            {this.interpOutput.map((out, k) => <div key={k}>{">>  "+out}<br /></div>)}
+          </div>
         </div>
 
         <button onClick={this.onRun.bind(this)}>Run</button>
