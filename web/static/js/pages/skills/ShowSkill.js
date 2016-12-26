@@ -81,8 +81,8 @@ const initFunc = function(interpreter, scope) {
             />
           </div>
 
-          <div style={{display: "inline-block", width: 500, marginLeft: 15}}>
-            {this.interpOutput.map((out, k) => <div key={k}>{">>  "+out}<br /></div>)}
+          <div className="editor-output">
+            {this.interpOutput.map((out, k) => <div key={k} style={{marginLeft: 5}}>{">>  "+out}<br /></div>)}
           </div>
         </div>
 

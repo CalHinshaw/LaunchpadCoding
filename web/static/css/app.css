@@ -69,6 +69,24 @@ form.link, form.button {
   border-radius: 5px;
 }
 
+.ace_editor {
+  border-style: solid;
+  border-color: lightgrey;
+  border-radius: 4px;
+}
+
+.editor-output {
+  display: inline-block;
+  overflow-y: auto;
+  width: 500px;
+  height: 300px;
+  margin-left: 15px;
+
+  border-style: solid;
+  border-color: lightgrey;
+  border-radius: 4px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
