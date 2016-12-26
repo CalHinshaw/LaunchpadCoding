@@ -2,6 +2,9 @@ import React from 'react'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
+
 import brace from 'brace';
 import AceEditor from 'react-ace';
 
@@ -11,17 +14,46 @@ import 'brace/theme/tomorrow';
 import Interpreter from 'js-interpreter';
 
 
-function onChange(newValue) {
-  //const myInterpreter = new Interpreter(newValue);
-  //console.log(myInterpreter);
-}
+const initFunc = function(interpreter, scope) {
+  const setState = this.setState;
 
-class ShowSkill extends React.Component {
+  const alertWrapper = (text) => {
+    text = text ? text.toString() : '';
+    return interpreter.createPrimitive(alert(text));
+  };
+  interpreter.setProperty(
+    scope,
+    'alert',
+    interpreter.createNativeFunction(alertWrapper)
+  );
+
+  const printWrapper = (text) => {
+    text = text ? text.toString() : '';
+    this.interpOutput.push(text)
+    return interpreter.createPrimitive(null);
+  };
+  interpreter.setProperty(
+    scope,
+    'print',
+    interpreter.createNativeFunction(printWrapper)
+  );
+};
+
+
+@observer class ShowSkill extends React.Component {
+  @observable interpOutput = [];
+  @observable editorText = "";
+
+  updateEditorText(text) {
+    this.editorText = text;
+  }
+
   onRun() {
+    this.interpOutput.length = 0;
+
     const code = this.refs.editor.editor.getValue();
-    const curInterpreter = new Interpreter(code);
+    const curInterpreter = new Interpreter(code, initFunc.bind(this));
     curInterpreter.run();
-    console.log(curInterpreter.value);
   }
 
   render() {
@@ -38,9 +70,15 @@ class ShowSkill extends React.Component {
           ref="editor"
           mode="javascript"
           theme="tomorrow"
-          onChange={onChange}
           name="UNIQUE_ID_OF_DIV"
+          editorProps={{$blockScrolling: true}}
+          onChange={this.updateEditorText.bind(this)}
+          value={this.editorText}
         />
+
+        <div>
+          {this.interpOutput}
+        </div>
 
         <button onClick={this.onRun.bind(this)}>Run</button>
       </div>
