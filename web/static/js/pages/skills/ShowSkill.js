@@ -13,29 +13,53 @@ import 'brace/theme/tomorrow';
 
 import Interpreter from 'js-interpreter';
 
+const ConsoleLine = ({line}) => {
+  const type = line.type;
+
+  if (type === "print") {
+    return (
+      <div style={{marginLeft: 5}}>
+        {">>  "+line.text}
+        <br />
+      </div>
+    );
+  } else if (type === "prompt") {
+    console.log("asdfasdfasdf")
+    console.log(line)
+    line.callback("i'm a callback")
+    line.interpreter.run();
+    return (
+      <div style={{marginLeft: 5}}>
+        im a prompt
+      </div>
+    );
+  }
+  
+};
 
 const initFunc = function(interpreter, scope) {
-  const setState = this.setState;
-
-  const alertWrapper = (text) => {
-    text = text ? text.toString() : '';
-    return interpreter.createPrimitive(alert(text));
-  };
-  interpreter.setProperty(
-    scope,
-    'alert',
-    interpreter.createNativeFunction(alertWrapper)
-  );
-
   const printWrapper = (text) => {
     text = text ? text.toString() : '';
-    this.interpOutput.push(text)
+    this.interpOutput.push({type: 'print', text})
     return interpreter.createPrimitive(null);
   };
   interpreter.setProperty(
     scope,
     'print',
     interpreter.createNativeFunction(printWrapper)
+  );
+
+  const promptWrapper = (text, callback) => {
+    text = text ? text.toString() : '';
+    this.interpOutput.push({type: 'prompt', text, callback, interpreter})
+    // add a map to the array that descripts the prompt action
+    // and store a ref to the callback. may need to call
+    // interpreter.run, idk. also need to change format of print and the render function
+  };
+  interpreter.setProperty(
+    scope,
+    'prompt',
+    interpreter.createAsyncFunction(promptWrapper)
   );
 };
 
@@ -82,7 +106,7 @@ const initFunc = function(interpreter, scope) {
           </div>
 
           <div className="editor-output">
-            {this.interpOutput.map((out, k) => <div key={k} style={{marginLeft: 5}}>{">>  "+out}<br /></div>)}
+            {this.interpOutput.map((line, k) => <ConsoleLine key={k} line={line} />)}
           </div>
         </div>
 
