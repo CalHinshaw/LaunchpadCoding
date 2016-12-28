@@ -18,19 +18,26 @@ const ConsoleLine = ({line}) => {
 
   if (type === "print") {
     return (
-      <div style={{marginLeft: 5}}>
-        {">>  "+line.text}
+      <div style={{marginLeft: 10}}>
+        {line.text}
         <br />
       </div>
     );
   } else if (type === "prompt") {
-    console.log("asdfasdfasdf")
-    console.log(line)
-    line.callback("i'm a callback")
-    line.interpreter.run();
+    const resizeTextArea = (e) => {
+      e.target.style.height = 'auto';
+      e.target.style.height = e.target.scrollHeight+'px';
+    };
+
+    // line.callback("i'm a callback")
+    // line.interpreter.run();
     return (
-      <div style={{marginLeft: 5}}>
-        im a prompt
+      <div style={{marginLeft: 10}}>
+        {line.text}
+        <br />
+        <span style={{verticalAlign: "top"}}>>> </span>
+        <textarea onChange={resizeTextArea} rows="1" className="console-input" />
+        <br />
       </div>
     );
   }
