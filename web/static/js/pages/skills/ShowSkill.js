@@ -13,6 +13,7 @@ import 'brace/theme/tomorrow';
 
 import Interpreter from 'js-interpreter';
 
+
 const ConsoleLine = ({line}) => {
   const type = line.type;
 
@@ -29,14 +30,39 @@ const ConsoleLine = ({line}) => {
       e.target.style.height = e.target.scrollHeight+'px';
     };
 
-    // line.callback("i'm a callback")
-    // line.interpreter.run();
+    const handlePrompt = (event) => {
+      if (event.key !== 'Enter') return;
+
+      line.type = "answered-prompt";
+      line.answer = event.target.value;
+
+      line.callback(event.target.value);
+      line.interpreter.run();
+
+      line.callback = null;
+    }
+
     return (
       <div style={{marginLeft: 10}}>
-        {line.text}
+        {line.prompt}
         <br />
         <span style={{verticalAlign: "top"}}>>> </span>
-        <textarea onChange={resizeTextArea} rows="1" className="console-input" />
+        <textarea
+          onChange={resizeTextArea}
+          onKeyPress={handlePrompt}
+          rows="1"
+          className="console-input"
+        />
+        <br />
+      </div>
+    );
+  } else if (type === "answered-prompt") {
+    return (
+      <div style={{marginLeft: 10}}>
+        {line.prompt}
+        <br />
+        <span style={{verticalAlign: "top"}}>>> </span>
+        <div className="console-input">{line.answer}</div>
         <br />
       </div>
     );
@@ -56,12 +82,9 @@ const initFunc = function(interpreter, scope) {
     interpreter.createNativeFunction(printWrapper)
   );
 
-  const promptWrapper = (text, callback) => {
-    text = text ? text.toString() : '';
-    this.interpOutput.push({type: 'prompt', text, callback, interpreter})
-    // add a map to the array that descripts the prompt action
-    // and store a ref to the callback. may need to call
-    // interpreter.run, idk. also need to change format of print and the render function
+  const promptWrapper = (prompt, callback) => {
+    prompt = prompt ? prompt.toString() : '';
+    this.interpOutput.push({type: 'prompt', prompt, callback, interpreter})
   };
   interpreter.setProperty(
     scope,
