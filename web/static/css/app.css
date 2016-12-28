@@ -104,6 +104,12 @@ form.link, form.button {
   overflow: hidden;
 }
 
+.test-status {
+  height: 15px;
+  width: 15px;
+  margin-right: 8px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */

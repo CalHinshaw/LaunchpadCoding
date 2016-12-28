@@ -12,7 +12,31 @@ import 'brace/theme/tomorrow';
 import Interpreter from 'js-interpreter';
 
 
-const ConsoleLine = ({line}) => {
+const initInterpForUI = function(interpreter, scope) {
+  const printWrapper = (text) => {
+    text = text ? text.toString() : '';
+    this.interpOutput.push({type: 'print', text})
+    return interpreter.createPrimitive(null);
+  };
+  interpreter.setProperty(
+    scope,
+    'print',
+    interpreter.createNativeFunction(printWrapper)
+  );
+
+  const promptWrapper = (prompt, callback) => {
+    prompt = prompt ? prompt.toString() : '';
+    this.interpOutput.push({type: 'prompt', prompt, callback, interpreter})
+  };
+  interpreter.setProperty(
+    scope,
+    'prompt',
+    interpreter.createAsyncFunction(promptWrapper)
+  );
+};
+
+
+const ConsoleLine = observer(({line}) => {
   const type = line.type;
 
   if (type === "print") {
@@ -66,30 +90,7 @@ const ConsoleLine = ({line}) => {
     );
   }
   
-};
-
-const initFunc = function(interpreter, scope) {
-  const printWrapper = (text) => {
-    text = text ? text.toString() : '';
-    this.interpOutput.push({type: 'print', text})
-    return interpreter.createPrimitive(null);
-  };
-  interpreter.setProperty(
-    scope,
-    'print',
-    interpreter.createNativeFunction(printWrapper)
-  );
-
-  const promptWrapper = (prompt, callback) => {
-    prompt = prompt ? prompt.toString() : '';
-    this.interpOutput.push({type: 'prompt', prompt, callback, interpreter})
-  };
-  interpreter.setProperty(
-    scope,
-    'prompt',
-    interpreter.createAsyncFunction(promptWrapper)
-  );
-};
+});
 
 
 @observer class ConsoleEnvironment extends React.Component {
@@ -104,7 +105,7 @@ const initFunc = function(interpreter, scope) {
     this.interpOutput.length = 0;
 
     const code = this.refs.editor.editor.getValue();
-    const curInterpreter = new Interpreter(code, initFunc.bind(this));
+    const curInterpreter = new Interpreter(code, initInterpForUI.bind(this));
     curInterpreter.run();
   }
 
@@ -132,6 +133,8 @@ const initFunc = function(interpreter, scope) {
         </div>
 
         <button onClick={this.onRun.bind(this)}>Run</button>
+        <button>Test</button>
+        
       </div>
     );
   }

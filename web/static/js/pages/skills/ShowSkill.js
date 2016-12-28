@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ConsoleEnvironment from '../../components/ConsoleEnvironment'
+import HelloWorldSkill from '../../skills/HelloWorld'
 
 
 class ShowSkill extends React.Component {
@@ -13,10 +13,10 @@ class ShowSkill extends React.Component {
     
     return (
       <div style={{width: 1050, display: "block", marginLeft: "auto", marginRight: "auto"}}>
-        <h1>{skill.name}</h1>
-        <p>{skill.description}</p>
+        {/*<h1>{skill.name}</h1>
+        <p>{skill.description}</p>*/}
 
-        <ConsoleEnvironment />
+        <HelloWorldSkill />
       </div>
     );
   }
