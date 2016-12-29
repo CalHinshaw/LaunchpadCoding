@@ -32,7 +32,6 @@ const testtest = [
 
 export default class HelloWorldSkill extends React.Component {
   render() {
-    
     return (
       <div>
         <div>
@@ -42,22 +41,6 @@ export default class HelloWorldSkill extends React.Component {
               Program a calculator that takes an arbetrary arithmatic expression
               and calculates the result.
             </p>
-          </div>
-          <div style={{display: 'inline-block', width: 650}}>
-            <div>
-              <img className='test-status' src="/images/green_check.svg" />
-              Got 843*-69 correct.
-            </div>
-
-            <div>
-              <img className='test-status' src="/images/red_x.svg" />
-              Supposed to prompt for a name and print "Hello name!". Didn't prompt for a name.
-            </div>
-
-            <div>
-              <img className='test-status' src="/images/red_x.svg" />
-              Suposed to prompt for an age and print "You can drink!" if it is greater than 21 or the number of years until they can drink if they're under 21. Printed you can drink when the age entered was 18.
-            </div>
           </div>
         </div>
 

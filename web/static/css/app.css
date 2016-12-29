@@ -82,11 +82,24 @@ form.link, form.button {
   height: 300px;
   margin-left: 15px;
 
+  position: relative;
+
   border-style: solid;
   border-color: lightgrey;
   border-radius: 4px;
 
   font-family: "Lucida Console", Monaco, monospace;
+}
+
+.run-button {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: none;
+}
+
+.console-env-row:hover .run-button {
+  display: block;
 }
 
 .console-input {
