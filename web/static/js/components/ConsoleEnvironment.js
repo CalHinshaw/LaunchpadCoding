@@ -11,6 +11,8 @@ import 'brace/theme/tomorrow';
 
 import Interpreter from 'js-interpreter';
 
+import Dropdown from './Dropdown'
+
 
 const initInterpForUI = function(interpreter, scope) {
   const printWrapper = (text) => {
@@ -133,7 +135,10 @@ const ConsoleLine = observer(({line}) => {
           </div>
         </div>
 
-        <div style={{display: 'inline-block', width: 650}}>
+        <Dropdown>
+          <span>
+            dropdown status bar
+          </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />
             Got 843*-69 correct.
@@ -148,7 +153,7 @@ const ConsoleLine = observer(({line}) => {
             <img className='test-status' src="/images/red_x.svg" />
             Suposed to prompt for an age and print "You can drink!" if it is greater than 21 or the number of years until they can drink if they're under 21. Printed you can drink when the age entered was 18.
           </div>
-        </div>
+        </Dropdown>
         
       </div>
     );
