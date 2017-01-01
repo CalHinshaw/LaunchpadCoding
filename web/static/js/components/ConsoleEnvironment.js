@@ -137,7 +137,8 @@ const ConsoleLine = observer(({line}) => {
 
         <Dropdown>
           <span>
-            dropdown status bar
+            <img className='test-status' src="/images/red_x.svg" />
+            3/4 tests passing
           </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />
