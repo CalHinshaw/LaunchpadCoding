@@ -103,12 +103,17 @@ const ConsoleLine = observer(({line}) => {
     this.editorText = text;
   }
 
-  onRun() {
+  _onRun() {
     this.interpOutput.length = 0;
 
     const code = this.refs.editor.editor.getValue();
     const curInterpreter = new Interpreter(code, initInterpForUI.bind(this));
     curInterpreter.run();
+  }
+
+  _runTests(event) {
+    event.stopPropagation();
+    console.log('run tests')
   }
 
   render() {
@@ -131,14 +136,16 @@ const ConsoleLine = observer(({line}) => {
 
           <div className="editor-output">
             {this.interpOutput.map((line, k) => <ConsoleLine key={k} line={line} />)}
-            <button className="run-button" onClick={this.onRun.bind(this)}>Run</button>
+            <button className="run-button" onClick={this._onRun.bind(this)}>Run</button>
           </div>
         </div>
 
         <Dropdown>
           <span>
             <img className='test-status' src="/images/red_x.svg" />
-            3/4 tests passing
+            <strong>3/4 tests passing</strong>
+            &nbsp; (click to see more info)
+            <a href="#" onClick={this._runTests.bind(this)} style={{float: 'right'}}>Run Tests</a>
           </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />

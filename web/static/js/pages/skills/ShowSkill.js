@@ -12,7 +12,7 @@ class ShowSkill extends React.Component {
     const skill = this.props.data.skill;
     
     return (
-      <div style={{width: 1050, display: "block", marginLeft: "auto", marginRight: "auto"}}>
+      <div style={{width: 1015, display: "block", marginLeft: "auto", marginRight: "auto"}}>
         {/*<h1>{skill.name}</h1>
         <p>{skill.description}</p>*/}
 

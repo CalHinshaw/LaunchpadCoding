@@ -16,7 +16,7 @@ export default @observer class Dropdown extends React.Component {
     const body = this.props.children.slice(1);
 
     return (
-      <div>
+      <div className="dropdown">
         <div onClick={this._toggleShow.bind(this)}>
           {this.showBody
             ? <img className='test-status' src="/images/down_arrow.svg" />
