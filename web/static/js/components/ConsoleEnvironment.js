@@ -145,7 +145,7 @@ const ConsoleLine = observer(({line}) => {
             <img className='test-status' src="/images/red_x.svg" />
             <strong>3/4 tests passing</strong>
             &nbsp; (click to see more info)
-            <a href="#" onClick={this._runTests.bind(this)} style={{float: 'right'}}>Run Tests</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={this._runTests.bind(this)}>Run Tests</a>
           </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />
