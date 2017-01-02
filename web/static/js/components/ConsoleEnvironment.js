@@ -98,8 +98,9 @@ const ConsoleLine = observer(({line}) => {
 @observer class ConsoleEnvironment extends React.Component {
   @observable interpOutput = [];
   @observable editorText = "";
+  @observable testResults = [];
 
-  updateEditorText(text) {
+  _updateEditorText(text) {
     this.editorText = text;
   }
 
@@ -111,9 +112,14 @@ const ConsoleLine = observer(({line}) => {
     curInterpreter.run();
   }
 
-  _runTests(event) {
-    event.stopPropagation();
-    console.log('run tests')
+  _runTests(event, tests, program) {
+    if (event) event.stopPropagation();
+    console.log(tests)
+    console.log(program)
+  }
+
+  componentDidMount() {
+    this._runTests(null, this.props.tests, this.editorText);
   }
 
   render() {
@@ -129,7 +135,7 @@ const ConsoleLine = observer(({line}) => {
               theme="tomorrow"
               tabSize={2}
               editorProps={{$blockScrolling: true}}
-              onChange={this.updateEditorText.bind(this)}
+              onChange={this._updateEditorText.bind(this)}
               value={this.editorText}
             />
           </div>
@@ -144,8 +150,8 @@ const ConsoleLine = observer(({line}) => {
           <span>
             <img className='test-status' src="/images/red_x.svg" />
             <strong>3/4 tests passing</strong>
-            &nbsp; (click to see more info)
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={this._runTests.bind(this)}>Run Tests</a>
+            &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#" onClick={event => this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
           </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />

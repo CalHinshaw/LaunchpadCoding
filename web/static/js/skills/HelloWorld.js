@@ -24,10 +24,12 @@ import ConsoleEnvironment from '../components/ConsoleEnvironment'
 
 */
 
-const testtest = [
-  {type: "print", require: "Hello World!"},
-  {type: "prompt", provide: "Susan"},
-  {type: "print", require: "Hello Susan!"}
+const testtests = [
+  [
+    {type: "print", require: "Hello World!"},
+    {type: "prompt", provide: "Susan"},
+    {type: "print", require: "Hello Susan!"}
+  ]
 ];
 
 export default class HelloWorldSkill extends React.Component {
@@ -44,7 +46,7 @@ export default class HelloWorldSkill extends React.Component {
           </div>
         </div>
 
-        <ConsoleEnvironment test={testtest}/>
+        <ConsoleEnvironment tests={testtests}/>
       </div>
     );
   }
