@@ -50,8 +50,16 @@ const runTest = (program, test) => {
       const currentStep = test.testData[currentStepIndex];
       currentStepIndex++;
 
-      if (currentStep.type !== "print" || text !== currentStep.require) {
-        result = {status: "failure"};
+      if (currentStep.type !== "print") {
+        result = {
+          status: "failure",
+          reason: "Expecting prompt for "+currentStep.for+", program printed \""+text+"\" instead."
+        };
+      } else if (text !== currentStep.require) {
+        result = {
+          status: "failure",
+          reason: "Expected program to print \""+currentStep.require+"\", program printed \""+text+"\" instead."
+        };
       }
 
       return interpreter.createPrimitive(null);
@@ -90,7 +98,23 @@ const runTest = (program, test) => {
   }
 
   if (currentStepIndex < test.testData.length) {
-    return {status: "failure", reason: "didn't finish"}
+    const next = test.testData[currentStepIndex];
+    if (next.type === "print") {
+      return {
+        status: "failure",
+        reason: "Should have printed \""+next.require+"\", ended execution instead."
+      };
+    } else if (next.type === "prompt") {
+      return {
+        status: "failure",
+        reason: "Should have prompted for "+next.for+", ended execution instead."
+      };
+    } else {
+      return {
+        status: "failure",
+        reason: "unknown"
+      };
+    }
   }
 
   return {status: "success"};

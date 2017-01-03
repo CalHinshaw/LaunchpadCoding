@@ -44,7 +44,7 @@ import ConsoleEnvironment from '../components/ConsoleEnvironment'
     name: "Handle empty name string",
     type: "functional",
     testData: [
-      {type: "prompt", provide: ""},
+      {type: "prompt", for: "name", provide: ""},
       {type: "print", require: "Hello !"}
     ]
   }
@@ -56,7 +56,8 @@ const testtests = [
     name: "Prompt for name'",
     type: "functional",
     testData: [
-      {type: "print", require: "hello"}
+      {type: "print", require: "hello"},
+      {type: "print", require: "world"}
     ]
   }
 ];
