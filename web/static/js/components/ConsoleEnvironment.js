@@ -197,16 +197,18 @@ const ConsoleLine = observer(({line}) => {
     curInterpreter.run();
   }
 
-  _runTests(event, tests, program, testResults) {
+  _runTests(event, tests, program) {
     if (event) event.stopPropagation();
 
-    transaction(() => {
-      //testResults.length = 0;
+    const testResults = [];
 
-      for (let test of tests) {
-        console.log(runTest(program, test));
-      }
-    });
+    for (let test of tests) {
+      testResults.push(runTest(program, test));
+    }
+
+
+    console.log(testResults)
+    return testResults;
   }
 
   componentDidMount() {
@@ -240,9 +242,9 @@ const ConsoleLine = observer(({line}) => {
         <Dropdown>
           <span>
             <img className='test-status' src="/images/red_x.svg" />
-            <strong>3/4 tests passing</strong>
+            <strong>{this.testResults.filter((r) => r.status === "success").length}/{this.props.tests.length} tests passing</strong>
             &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" onClick={event => this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
+            <a href="#" onClick={event => this.testResults = this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
           </span>
           <div>
             <img className='test-status' src="/images/green_check.svg" />
