@@ -50,7 +50,7 @@ const runTest = (program, test) => {
       const currentStep = test.testData[currentStepIndex];
       currentStepIndex++;
 
-      if (currentStep.type !== "print") {
+      if (currentStep.type === "prompt") {
         result = {
           status: "failure",
           reason: "Expecting prompt for "+currentStep.for+", program printed \""+text+"\" instead."
@@ -74,24 +74,26 @@ const runTest = (program, test) => {
       prompt = prompt ? prompt.toString() : '';
 
       const currentStep = test.testData[currentStepIndex];
+      currentStepIndex++;
+
       if (currentStep.type === "print") {
-        if (text === currentStep.require) {
-          // everything's fine, move onto next step
-          return currentStep.provide;
-        } else {
-          // update testResults or something
-        }
+        result = {
+          status: "failure",
+          reason: "Expecting program to print "+currentStep.require+", program prompted for \""+prompt+"\" instead."
+        };
       }
+
+      return interpreter.createPrimitive(currentStep.provide);
     };
     interpreter.setProperty(
       scope,
       'prompt',
-      interpreter.createAsyncFunction(promptWrapper)
+      interpreter.createNativeFunction(promptWrapper)
     );
   };
 
   const interp = new Interpreter(program, initInterpForTest);
-  while(interp.step()) {
+  while(interp.step() && currentStepIndex < test.testData.length) {
     if (result != null) {
       return result;
     }
