@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { observer } from 'mobx-react'
-import { observable } from 'mobx'
+import { observable, transaction } from 'mobx'
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -35,6 +35,65 @@ const initInterpForUI = function(interpreter, scope) {
     'prompt',
     interpreter.createAsyncFunction(promptWrapper)
   );
+};
+
+const runTest = (program, test) => {
+    // create interpreter, run test, return result
+
+  let currentStepIndex = 0;
+  let result = null;
+
+  const initInterpForTest = function(interpreter, scope) {
+    const printWrapper = (text) => {
+      text = text ? text.toString() : '';
+
+      const currentStep = test.testData[currentStepIndex];
+      currentStepIndex++;
+
+      if (currentStep.type !== "print" || text !== currentStep.require) {
+        result = {status: "failure"};
+      }
+
+      return interpreter.createPrimitive(null);
+    };
+    interpreter.setProperty(
+      scope,
+      'print',
+      interpreter.createNativeFunction(printWrapper)
+    );
+
+    const promptWrapper = (prompt, callback) => {
+      prompt = prompt ? prompt.toString() : '';
+
+      const currentStep = test.testData[currentStepIndex];
+      if (currentStep.type === "print") {
+        if (text === currentStep.require) {
+          // everything's fine, move onto next step
+          return currentStep.provide;
+        } else {
+          // update testResults or something
+        }
+      }
+    };
+    interpreter.setProperty(
+      scope,
+      'prompt',
+      interpreter.createAsyncFunction(promptWrapper)
+    );
+  };
+
+  const interp = new Interpreter(program, initInterpForTest);
+  while(interp.step()) {
+    if (result != null) {
+      return result;
+    }
+  }
+
+  if (currentStepIndex < test.testData.length) {
+    return {status: "failure", reason: "didn't finish"}
+  }
+
+  return {status: "success"};
 };
 
 
@@ -112,10 +171,16 @@ const ConsoleLine = observer(({line}) => {
     curInterpreter.run();
   }
 
-  _runTests(event, tests, program) {
+  _runTests(event, tests, program, testResults) {
     if (event) event.stopPropagation();
-    console.log(tests)
-    console.log(program)
+
+    transaction(() => {
+      //testResults.length = 0;
+
+      for (let test of tests) {
+        console.log(runTest(program, test));
+      }
+    });
   }
 
   componentDidMount() {

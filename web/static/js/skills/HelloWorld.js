@@ -24,13 +24,43 @@ import ConsoleEnvironment from '../components/ConsoleEnvironment'
 
 */
 
+/*const testtests = [
+  {
+    name: "Prompt for name'",
+    type: "functional",
+    testData: [
+      {type: "prompt", provide: "Susan"}
+    ]
+  },
+  {
+    name: "Prompt for name and print 'Hello name!'",
+    type: "functional",
+    testData: [
+      {type: "prompt", provide: "Arnold"},
+      {type: "print", require: "Hello Arnold!"}
+    ]
+  },
+  {
+    name: "Handle empty name string",
+    type: "functional",
+    testData: [
+      {type: "prompt", provide: ""},
+      {type: "print", require: "Hello !"}
+    ]
+  }
+];*/
+
+
 const testtests = [
-  [
-    {type: "print", require: "Hello World!"},
-    {type: "prompt", provide: "Susan"},
-    {type: "print", require: "Hello Susan!"}
-  ]
+  {
+    name: "Prompt for name'",
+    type: "functional",
+    testData: [
+      {type: "print", require: "hello"}
+    ]
+  }
 ];
+
 
 export default class HelloWorldSkill extends React.Component {
   render() {
