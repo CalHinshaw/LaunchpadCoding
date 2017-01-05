@@ -176,7 +176,19 @@ const ConsoleLine = observer(({line}) => {
       </div>
     );
   }
-  
+});
+
+const TestResult = observer(({testResult}) => {
+  console.log("Test")
+  return (
+    <div>
+      {testResult.status === "success"
+        ? <img className='test-status' src="/images/green_check.svg" />
+        : <img className='test-status' src="/images/red_x.svg" />
+      }
+      {testResult.reason}
+    </div>
+  );
 });
 
 
@@ -216,6 +228,9 @@ const ConsoleLine = observer(({line}) => {
   }
 
   render() {
+    const numPassingTests = this.testResults.filter((r) => r.status === "success").length;
+    const numTests = this.props.tests.length;
+
     return (
       <div>
         <div className="console-env-row">
@@ -241,25 +256,16 @@ const ConsoleLine = observer(({line}) => {
 
         <Dropdown>
           <span>
-            <img className='test-status' src="/images/red_x.svg" />
-            <strong>{this.testResults.filter((r) => r.status === "success").length}/{this.props.tests.length} tests passing</strong>
+            {numPassingTests === numTests
+              ? <img className='test-status' src="/images/green_check.svg" />
+              : <img className='test-status' src="/images/red_x.svg" />
+            }
+            <strong>{numPassingTests}/{numTests} tests passing</strong>
             &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" onClick={event => this.testResults = this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
+            <a onClick={event => this.testResults = this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
           </span>
-          <div>
-            <img className='test-status' src="/images/green_check.svg" />
-            Got 843*-69 correct.
-          </div>
 
-          <div>
-            <img className='test-status' src="/images/red_x.svg" />
-            Supposed to prompt for a name and print "Hello name!". Didn't prompt for a name.
-          </div>
-
-          <div>
-            <img className='test-status' src="/images/red_x.svg" />
-            Suposed to prompt for an age and print "You can drink!" if it is greater than 21 or the number of years until they can drink if they're under 21. Printed you can drink when the age entered was 18.
-          </div>
+          {this.testResults.map((result, key) => <TestResult key={key} testResult={result} />)}
         </Dropdown>
         
       </div>
