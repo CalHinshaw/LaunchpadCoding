@@ -131,6 +131,12 @@ const ConsoleLine = observer(({line}) => {
         <br />
       </div>
     );
+  } else if (type === "error") {
+    return (
+      <div style={{marginLeft: 10, color: "red"}}>
+        {line.error}
+      </div>
+    );
   } else if (type === "prompt") {
     const resizeTextArea = (e) => {
       e.target.style.height = 'auto';
@@ -203,7 +209,14 @@ const TestResult = observer(({testResult}) => {
 
     const code = this.refs.editor.editor.getValue();
     const curInterpreter = new Interpreter(code, initInterpForUI.bind(this));
-    curInterpreter.run();
+    try {
+      curInterpreter.run();
+    } catch(e) {
+      this.interpOutput.push({
+        type: "error",
+        error: e.toString()
+      });
+    }
   }
 
   _runTests(event, tests, program) {
