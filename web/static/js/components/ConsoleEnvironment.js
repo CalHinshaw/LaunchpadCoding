@@ -38,8 +38,6 @@ const initInterpForUI = function(interpreter, scope) {
 };
 
 const runTest = (program, test) => {
-    // create interpreter, run test, return result
-
   let currentStepIndex = 0;
   let result = null;
 
@@ -179,7 +177,6 @@ const ConsoleLine = observer(({line}) => {
 });
 
 const TestResult = observer(({testResult}) => {
-  console.log("Test")
   return (
     <div>
       {testResult.status === "success"
@@ -213,18 +210,16 @@ const TestResult = observer(({testResult}) => {
     if (event) event.stopPropagation();
 
     const testResults = [];
-
     for (let test of tests) {
       testResults.push(runTest(program, test));
     }
-
-
-    console.log(testResults)
     return testResults;
   }
 
   componentDidMount() {
-    this._runTests(null, this.props.tests, this.editorText);
+    this.testResults.replace(
+      this._runTests(null, this.props.tests, this.editorText)
+    );
   }
 
   render() {
@@ -262,7 +257,7 @@ const TestResult = observer(({testResult}) => {
             }
             <strong>{numPassingTests}/{numTests} tests passing</strong>
             &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a onClick={event => this.testResults = this._runTests(event, this.props.tests, this.editorText)}>Run Tests</a>
+            <a onClick={event => this.testResults.replace(this._runTests(event, this.props.tests, this.editorText))}>Run Tests</a>
           </span>
 
           {this.testResults.map((result, key) => <TestResult key={key} testResult={result} />)}
