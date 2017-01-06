@@ -51,11 +51,13 @@ const runTest = (program, test) => {
       if (currentStep.type === "prompt") {
         result = {
           status: "failure",
+          name: test.name,
           reason: "Expecting prompt for "+currentStep.for+", program printed \""+text+"\" instead."
         };
       } else if (text !== currentStep.require) {
         result = {
           status: "failure",
+          name: test.name,
           reason: "Expected program to print \""+currentStep.require+"\", program printed \""+text+"\" instead."
         };
       }
@@ -77,6 +79,7 @@ const runTest = (program, test) => {
       if (currentStep.type === "print") {
         result = {
           status: "failure",
+          name: test.name,
           reason: "Expecting program to print "+currentStep.require+", program prompted for \""+prompt+"\" instead."
         };
       }
@@ -102,22 +105,25 @@ const runTest = (program, test) => {
     if (next.type === "print") {
       return {
         status: "failure",
+        name: test.name,
         reason: "Should have printed \""+next.require+"\", ended execution instead."
       };
     } else if (next.type === "prompt") {
       return {
         status: "failure",
+        name: test.name,
         reason: "Should have prompted for "+next.for+", ended execution instead."
       };
     } else {
       return {
         status: "failure",
+        name: test.name,
         reason: "unknown"
       };
     }
   }
 
-  return {status: "success"};
+  return {status: "success", name: test.name,};
 };
 
 
@@ -189,7 +195,8 @@ const TestResult = observer(({testResult}) => {
         ? <img className='test-status' src="/images/green_check.svg" />
         : <img className='test-status' src="/images/red_x.svg" />
       }
-      {testResult.reason}
+      <strong>{testResult.name+": "}</strong>
+      {testResult.reason || "passing!"}
     </div>
   );
 });

@@ -53,7 +53,7 @@ import ConsoleEnvironment from '../components/ConsoleEnvironment'
 
 const testtests = [
   {
-    name: "Prompt for name and print hello name",
+    name: "Prompt for name and print 'Hello name!'",
     type: "functional",
     testData: [
       {type: "prompt", for: "name", provide: "Cal"},
@@ -61,7 +61,7 @@ const testtests = [
     ]
   },
   {
-    name: "handle empty response",
+    name: "Disallow empty name",
     type: "functional",
     testData: [
       {type: "prompt", for: "name", provide: ""},
