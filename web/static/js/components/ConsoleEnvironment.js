@@ -94,10 +94,19 @@ const runTest = (program, test) => {
   };
 
   const interp = new Interpreter(program, initInterpForTest);
-  while(interp.step() && currentStepIndex < test.testData.length) {
-    if (result != null) {
-      return result;
+
+  try {
+    while(interp.step() && currentStepIndex < test.testData.length) {
+      if (result != null) {
+        return result;
+      }
     }
+  } catch (e) {
+    return {
+      status: "failure",
+      name: test.name,
+      reason: "error: "+e.toString()
+    };
   }
 
   if (currentStepIndex < test.testData.length) {
