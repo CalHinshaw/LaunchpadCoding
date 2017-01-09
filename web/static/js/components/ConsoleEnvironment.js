@@ -48,6 +48,10 @@ const runTest = (program, test) => {
       const currentStep = test.testData[currentStepIndex];
       currentStepIndex++;
 
+      if (!currentStep) {
+        return interpreter.createPrimitive(null);
+      }
+
       if (currentStep.type === "prompt") {
         result = {
           status: "failure",
@@ -55,6 +59,7 @@ const runTest = (program, test) => {
           reason: "Expecting prompt for "+currentStep.for+", program printed \""+text+"\" instead."
         };
       } else if (text !== currentStep.require) {
+        console.log("ding")
         result = {
           status: "failure",
           name: test.name,
@@ -75,6 +80,10 @@ const runTest = (program, test) => {
 
       const currentStep = test.testData[currentStepIndex];
       currentStepIndex++;
+
+      if (!currentStep) {
+        return interpreter.createPrimitive("");
+      }
 
       if (currentStep.type === "print") {
         result = {
@@ -100,6 +109,10 @@ const runTest = (program, test) => {
       if (result != null) {
         return result;
       }
+    }
+
+    if (result != null) {
+      return result;
     }
   } catch (e) {
     return {
