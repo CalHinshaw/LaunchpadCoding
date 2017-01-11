@@ -259,6 +259,8 @@ const TestResult = observer(({testResult}) => {
   }
 
   componentDidMount() {
+    if (!this.props.tests) return;
+
     this.testResults.replace(
       this._runTests(null, this.props.tests, this.editorText)
     );
@@ -266,7 +268,7 @@ const TestResult = observer(({testResult}) => {
 
   render() {
     const numPassingTests = this.testResults.filter((r) => r.status === "success").length;
-    const numTests = this.props.tests.length;
+    const numTests = this.props.tests ? this.props.tests.length : 0;
 
     return (
       <div>
@@ -291,20 +293,22 @@ const TestResult = observer(({testResult}) => {
           </div>
         </div>
 
-        <Dropdown>
-          <span>
-            {numPassingTests === numTests
-              ? <img className='test-status' src="/images/green_check.svg" />
-              : <img className='test-status' src="/images/red_x.svg" />
-            }
-            <strong>{numPassingTests}/{numTests} tests passing</strong>
-            &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a onClick={event => this.testResults.replace(this._runTests(event, this.props.tests, this.editorText))}>Run Tests</a>
-          </span>
+        {this.props.tests
+          ? <Dropdown>
+              <span>
+                {numPassingTests === numTests
+                  ? <img className='test-status' src="/images/green_check.svg" />
+                  : <img className='test-status' src="/images/red_x.svg" />
+                }
+                <strong>{numPassingTests}/{numTests} tests passing</strong>
+                &nbsp; (click to see more info)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a onClick={event => this.testResults.replace(this._runTests(event, this.props.tests, this.editorText))}>Run Tests</a>
+              </span>
 
-          {this.testResults.map((result, key) => <TestResult key={key} testResult={result} />)}
-        </Dropdown>
-        
+              {this.testResults.map((result, key) => <TestResult key={key} testResult={result} />)}
+            </Dropdown>
+          : null
+        }
       </div>
     );
   }

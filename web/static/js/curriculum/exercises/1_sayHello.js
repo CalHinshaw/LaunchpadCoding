@@ -3,8 +3,7 @@ const tests = [
     name: "Print 'Hello World!'",
     type: "functional",
     testData: [
-      {type: "print", require: "Hello World!"},
-      {type: "print", require: ""}
+      {type: "print", require: "Hello World!"}
     ]
   }
 ];
