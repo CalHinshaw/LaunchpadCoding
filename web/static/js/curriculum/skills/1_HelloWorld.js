@@ -1,5 +1,8 @@
 import React from 'react';
 
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/styles';
+
 import ConsoleEnvironment from '../../components/ConsoleEnvironment'
 import sayHello from '../exercises/1_sayHello'
 import printingAnyString from '../exercises/2_printingAnyString'
@@ -23,9 +26,9 @@ export default class HelloWorldSkill extends React.Component {
           for now all you need to know is that you can print a message
           by replacing "your text here" in the block below with it.
 
-          <code style={{display: 'block'}}>
+          <SyntaxHighlighter language='javascript' style={tomorrow}>
             print("your text here");
-          </code>
+          </SyntaxHighlighter>
         </p>
 
         <h3>Exercise 1: Say Hello</h3>
