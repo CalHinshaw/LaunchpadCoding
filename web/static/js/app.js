@@ -6,6 +6,7 @@ import { Router, Route, browserHistory, applyRouterMiddleware } from 'react-rout
 import ApolloClient from 'apollo-client'
 import { ApolloProvider } from 'react-apollo'
 
+import CodeAnalyser from './components/CodeAnalyser'
 import SkillIndex from './pages/skills/SkillIndex'
 import ShowSkill from './pages/skills/ShowSkill'
 import NotFound from './pages/misc/NotFound'
@@ -16,6 +17,7 @@ const router = (
   <ApolloProvider client={client}>
     <Router history={ browserHistory } >
       <Route path="/">
+        <Route path="analyse" component={CodeAnalyser} />
         <Route path="skills" component={SkillIndex}/>
         <Route path="skills/:skillId" component={ShowSkill}/>
         <Route path="*" component={NotFound}/>
