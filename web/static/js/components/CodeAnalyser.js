@@ -60,8 +60,7 @@ export default @observer class CodeAnalyser extends React.Component {
   _next() {
     try {
       if (!this.interp.step()) {
-        this.interp = null;
-        this.stateStack = [];
+        this._reset();
       } else {
         this.stateStack = this.interp.stateStack;
       }
@@ -71,8 +70,11 @@ export default @observer class CodeAnalyser extends React.Component {
         error: e.toString()
       });
     }
+  }
 
-    
+  _reset() {
+    this.interp = null;
+    this.stateStack = [];
   }
 
   render() {
@@ -102,7 +104,7 @@ export default @observer class CodeAnalyser extends React.Component {
             ? <div style={{marginLeft: 15}}>
                 <button onClick={this._next.bind(this)}>Next</button>
                 <button>Run until complete</button>
-                <button>Edit Code</button>
+                <button onClick={this._reset.bind(this)}>Edit Code</button>
               </div>
             : <div style={{marginLeft: 15}}>
                 <button onClick={this._start.bind(this)}>Start</button>
