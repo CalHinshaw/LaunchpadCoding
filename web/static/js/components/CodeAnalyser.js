@@ -51,16 +51,17 @@ export default @observer class CodeAnalyser extends React.Component {
   }
 
   _start() {
-    console.log("start")
     this.interpOutput.length = 0;
-
     this.interp = new Interpreter(this.editorText, initInterpForUI.bind(this));
+
+    this._next();
   }
 
   _next() {
     try {
       if (!this.interp.step()) {
         this.interp = null;
+        this.stateStack = [];
       } else {
         this.stateStack = this.interp.stateStack;
       }
