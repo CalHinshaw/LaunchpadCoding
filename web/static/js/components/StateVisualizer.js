@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default ({interpreter}) => {
+export default ({interp}) => {
   return (
-    <div>
+    <div style={{display: "inline-block"}}>
       coming soon
     </div>
   );
