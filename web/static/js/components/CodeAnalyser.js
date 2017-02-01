@@ -92,6 +92,7 @@ export default @observer class CodeAnalyser extends React.Component {
               editorProps={{$blockScrolling: true}}
               onChange={this._updateEditorText.bind(this)}
               value={this.editorText}
+              readOnly={this.interp ? true : false}
             />
           </div>
 
