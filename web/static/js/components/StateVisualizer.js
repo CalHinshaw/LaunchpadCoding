@@ -51,6 +51,8 @@ const stringify = (data) => {
     return "coming soon"
   } else if (data.type === "undefined") {
     return "undefined";
+  } else if (!data.data) {
+    return data;
   } else {
     return data.data;
   }
@@ -81,7 +83,7 @@ export default ({stateStack}) => {
 
         return cleanFrame;
       }
-    )
+    );
 
   return (
     <div style={{display: "inline-block"}}>

@@ -29,7 +29,7 @@ const initInterpForUI = function(interpreter, scope) {
 
   const promptWrapper = (prompt, callback) => {
     prompt = prompt ? prompt.toString() : '';
-    this.interpOutput.push({type: 'prompt', prompt, callback, interpreter})
+    this.interpOutput.push({type: 'prompt', supressAutorun: true, prompt, callback, interpreter})
   };
   interpreter.setProperty(
     scope,
@@ -78,6 +78,8 @@ export default @observer class CodeAnalyser extends React.Component {
   }
 
   render() {
+    const lastOutput = this.interpOutput[this.interpOutput.length-1];
+
     return (
       <div>
         <div style={{display: "inline-block"}}>
@@ -103,7 +105,12 @@ export default @observer class CodeAnalyser extends React.Component {
           {
             this.interp
             ? <div style={{marginLeft: 15}}>
-                <button onClick={this._next.bind(this)}>Next</button>
+                <button
+                  onClick={this._next.bind(this)}
+                  disabled={lastOutput && lastOutput.type === "prompt"}
+                >
+                  Next
+                </button>
                 <button>Run until complete</button>
                 <button onClick={this._reset.bind(this)}>Edit Code</button>
               </div>

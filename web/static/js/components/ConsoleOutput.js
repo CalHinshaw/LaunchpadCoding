@@ -31,7 +31,9 @@ const ConsoleLine = observer(({line}) => {
       line.answer = event.target.value;
 
       line.callback(event.target.value);
-      line.interpreter.run();
+      if (!line.supressAutorun === true) {
+        line.interpreter.run();
+      }
 
       line.callback = null;
     }
