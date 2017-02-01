@@ -42,6 +42,8 @@ export default @observer class CodeAnalyser extends React.Component {
   @observable interpOutput = [];
   @observable editorText = "";
 
+  @observable stateStack = [];
+
   @observable interp = null;
 
   _updateEditorText(text) {
@@ -57,13 +59,19 @@ export default @observer class CodeAnalyser extends React.Component {
 
   _next() {
     try {
-      this.interp.step();
+      if (!this.interp.step()) {
+        this.interp = null;
+      } else {
+        this.stateStack = this.interp.stateStack;
+      }
     } catch(e) {
       this.interpOutput.push({
         type: "error",
         error: e.toString()
       });
     }
+
+    
   }
 
   render() {
@@ -102,7 +110,7 @@ export default @observer class CodeAnalyser extends React.Component {
 
           </div>
 
-        <StateVisualizer interp={this.interp}/>
+        <StateVisualizer stateStack={this.stateStack}/>
 
       </div>
     );
