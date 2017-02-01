@@ -38,12 +38,31 @@ const propertyBlacklist = [
   "prompt"
 ];
 
+const stringify = (data) => {
+  if (data.type === "object") {
+    console.log(data)
+
+    let s = "{";
+    Object.keys(data.properties).forEach((k) => s += k+': '+data.properties[k].data+', ')
+    s += '}';
+
+    return s;
+  } else if (data.type === "function") {
+    return "coming soon"
+  } else if (data.type === "undefined") {
+    return "undefined";
+  } else {
+    return data.data;
+  }
+};
 
 const StackFrame = ({frame}) => {
   console.log(frame)
   return (
     <div>
-      {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {frame[key].toString()}</p>)}
+      {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame[key])}</p>)}
+      <br />
+      <br />
     </div>
   );
 }
