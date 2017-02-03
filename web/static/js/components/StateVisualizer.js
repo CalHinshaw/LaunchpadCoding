@@ -1,4 +1,5 @@
 import React from 'react'
+import Interpreter from 'js-interpreter'
 
 const propertyBlacklist = [
   "Infinity",
@@ -69,8 +70,12 @@ const StackFrame = ({frame}) => {
   );
 }
 
-export default ({stateStack}) => {
-  const state = stateStack
+export default ({interpStack}) => {
+  const renderHeap = {};
+
+  console.log(interpStack)
+
+  const renderStack = interpStack
     .filter((frame) => frame.scope)
     .map(
       (frame) => {
@@ -79,7 +84,15 @@ export default ({stateStack}) => {
           .filter((prop) => !propertyBlacklist.includes(prop.toString()));
 
         const cleanFrame = {};
-        keys.forEach((key) => cleanFrame[key] = props[key]);
+        keys.forEach((key) => {
+          cleanFrame[key] = props[key]
+          if (props[key].type === "object" || props[key].type === "function") {
+            if (!renderHeap[props[key]]) {
+              renderHeap[props[key]] = true;
+            }
+          }
+          
+        });
 
         return cleanFrame;
       }
@@ -87,13 +100,19 @@ export default ({stateStack}) => {
 
   return (
     <div style={{display: "inline-block"}}>
-      {
-        state.map((frame, frameKey) => (
-          <div key={frameKey}>
-            <StackFrame frame={frame} />
-          </div>
-        ))
-      }
+      <div style={{display: "inline-block"}}>
+        {
+          renderStack.map((frame, frameKey) => (
+            <div key={frameKey}>
+              <StackFrame frame={frame} />
+            </div>
+          ))
+        }
+      </div>
+
+      <div style={{display: "inline-block"}}>
+        {Object.keys(renderHeap).map((item) => <div>{stringify(item)}</div>)}
+      </div>
     </div>
   );
 };

@@ -40,7 +40,16 @@ const initInterpForUI = function(interpreter, scope) {
 
 export default @observer class CodeAnalyser extends React.Component {
   @observable interpOutput = [];
-  @observable editorText = "";
+  @observable editorText = `var test = 9;
+var obj = {a: 1, b: 2};
+
+function hi() {
+  obj.inside = "asdf";
+  return "hi!";
+}
+
+print(obj.a + ' ' + hi());
+`;
 
   @observable stateStack = [];
 
@@ -121,7 +130,7 @@ export default @observer class CodeAnalyser extends React.Component {
 
           </div>
 
-        <StateVisualizer stateStack={this.stateStack}/>
+        <StateVisualizer interpStack={this.stateStack}/>
 
       </div>
     );
