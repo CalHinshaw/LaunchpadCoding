@@ -41,15 +41,9 @@ const propertyBlacklist = [
 
 const stringify = (data) => {
   if (data.type === "object") {
-    console.log(data)
-
-    let s = "{";
-    Object.keys(data.properties).forEach((k) => s += k+': '+data.properties[k].data+', ')
-    s += '}';
-
-    return s;
+    return "";
   } else if (data.type === "function") {
-    return "coming soon"
+    return "";
   } else if (data.type === "undefined") {
     return "undefined";
   } else if (!data.data) {
@@ -59,21 +53,23 @@ const stringify = (data) => {
   }
 };
 
+const StackObject = ({obj}) => {
+  return (
+    <div />
+  );
+};
+
 const StackFrame = ({frame}) => {
   console.log(frame)
   return (
-    <div>
+    <div className="stack-frame">
       {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame[key])}</p>)}
-      <br />
-      <br />
     </div>
   );
 }
 
 export default ({interpStack}) => {
   const renderHeap = {};
-
-  console.log(interpStack)
 
   const renderStack = interpStack
     .filter((frame) => frame.scope)
@@ -98,21 +94,19 @@ export default ({interpStack}) => {
       }
     );
 
+  let y = -100;
+
   return (
-    <div style={{display: "inline-block"}}>
-      <div style={{display: "inline-block"}}>
+    <div style={{display: "inline-block", position: "relative"}}>
         {
-          renderStack.map((frame, frameKey) => (
-            <div key={frameKey}>
-              <StackFrame frame={frame} />
+          renderStack.reverse().map((frame, frameKey) => (
+            <div key={frameKey} className="stack-frame" style={{left: 10, bottom: y+=100, width: 200}}>
+              {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame[key])}</p>)}
             </div>
           ))
         }
-      </div>
 
-      <div style={{display: "inline-block"}}>
-        {Object.keys(renderHeap).map((item) => <div>{stringify(item)}</div>)}
-      </div>
+        {Object.keys(renderHeap).map((item) => <div style={{position: "relative", left: 200}}>{stringify(item)}</div>)}
     </div>
   );
 };

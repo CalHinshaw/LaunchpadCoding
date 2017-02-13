@@ -127,6 +127,13 @@ form.link, form.button {
   max-width: 600px;
 }
 
+.stack-frame {
+  position: absolute;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 3px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
