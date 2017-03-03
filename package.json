@@ -2,6 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
+    "postinstall": "$(npm bin)/webpack",
     "deploy": "brunch build --production",
     "watch": "webpack --watch-stdin --color"
   },
