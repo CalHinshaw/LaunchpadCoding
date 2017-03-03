@@ -134,6 +134,11 @@ form.link, form.button {
   padding: 3px;
 }
 
+.current-marker {
+  background-color: lightblue;
+  position: absolute;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */

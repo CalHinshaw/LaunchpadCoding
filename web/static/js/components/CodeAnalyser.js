@@ -53,6 +53,8 @@ print(obj.a + ' ' + hi());
 
   @observable stateStack = [];
 
+  @observable marker = {};
+
   @observable interp = null;
 
   _updateEditorText(text) {
@@ -72,6 +74,20 @@ print(obj.a + ' ' + hi());
         this._reset();
       } else {
         this.stateStack = this.interp.stateStack;
+
+        const marker = {className: 'current-marker', type: 'background'};
+
+        const charsBeforeStart = this.stateStack[0].node.start;
+        const startData = this.editorText.substring(0, charsBeforeStart).split('\n');
+        marker.startRow = startData.length-1;
+        marker.startCol = startData[startData.length-1].length;
+
+        const charsBeforeEnd = this.stateStack[0].node.end;
+        const endData = this.editorText.substring(0, charsBeforeEnd).split('\n');
+        marker.endRow = endData.length-1;
+        marker.endCol = endData[endData.length-1].length;
+
+        this.marker = marker;
       }
     } catch(e) {
       this.interpOutput.push({
@@ -84,6 +100,7 @@ print(obj.a + ' ' + hi());
   _reset() {
     this.interp = null;
     this.stateStack = [];
+    this.marker = {};
   }
 
   render() {
@@ -104,6 +121,7 @@ print(obj.a + ' ' + hi());
               onChange={this._updateEditorText.bind(this)}
               value={this.editorText}
               readOnly={this.interp ? true : false}
+              markers={[this.marker]}
             />
           </div>
 
