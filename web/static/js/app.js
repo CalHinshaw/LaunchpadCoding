@@ -1,4 +1,4 @@
-import "phoenix_html"
+//import "phoenix_html"
 
 import React from 'react'
 import { render } from 'react-dom'
