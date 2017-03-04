@@ -25,3 +25,5 @@ erl_crash.dump
 
 # gql/relay
 /schema.json
+
+npm-debug.log

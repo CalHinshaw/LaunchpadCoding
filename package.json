@@ -7,9 +7,7 @@
     "watch": "webpack --watch-stdin --color"
   },
   "dependencies": {
-    "json-loader": "^0.5.4",
-    "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html"
+    "json-loader": "^0.5.4"
   },
   "devDependencies": {
     "apollo-client": "^0.5.24",
