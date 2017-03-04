@@ -43,8 +43,12 @@ export default @observer class CodeAnalyser extends React.Component {
   @observable editorText = `var test = 9;
 var obj = {a: 1, b: 2};
 
+function add(a, b) {
+  return a + b;
+}
+
 function hi() {
-  obj.inside = "asdf";
+  obj.inside = add("asdf", "second arg");
   return "hi!";
 }
 

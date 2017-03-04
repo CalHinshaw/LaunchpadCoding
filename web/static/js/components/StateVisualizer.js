@@ -71,7 +71,7 @@ const StackFrame = ({frame}) => {
 export default ({interpStack}) => {
   const renderHeap = {};
 
-  const renderStack = interpStack
+  const cleanedStack = interpStack
     .filter((frame) => frame.scope)
     .map(
       (frame) => {
@@ -94,19 +94,32 @@ export default ({interpStack}) => {
       }
     );
 
-  let y = -100;
+  console.log(cleanedStack)
+
+  let bottomCounter = 0;
+
+  const renderStack = cleanedStack.reverse().map((frame) => {
+    const toReturn = {
+      frame,
+      bottom: bottomCounter
+    };
+
+    bottomCounter += Object.keys(frame).length*30 + 18;
+
+    return toReturn;
+  })
 
   return (
     <div style={{display: "inline-block", position: "relative"}}>
         {
-          renderStack.reverse().map((frame, frameKey) => (
-            <div key={frameKey} className="stack-frame" style={{left: 10, bottom: y+=100, width: 200}}>
-              {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame[key])}</p>)}
+          renderStack.map((frame, frameKey) => (
+            <div key={frameKey} className="stack-frame" style={{left: 10, bottom: frame.bottom, width: 200}}>
+              {Object.keys(frame.frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame.frame[key])}</p>)}
             </div>
           ))
         }
 
-        {Object.keys(renderHeap).map((item) => <div style={{position: "relative", left: 200}}>{stringify(item)}</div>)}
+        {Object.keys(renderHeap).map((item) => <div style={{position: "relative", left: 300}}>{stringify(item)}</div>)}
     </div>
   );
 };
