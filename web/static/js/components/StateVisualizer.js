@@ -36,7 +36,8 @@ const propertyBlacklist = [
   "encodeURI",
   "encodeURIComponent",
   "print",
-  "prompt"
+  "prompt",
+  "arguments"
 ];
 
 const stringify = (data) => {
