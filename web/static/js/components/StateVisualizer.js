@@ -151,6 +151,14 @@ export default ({interpStack, programText}) => {
                 </SyntaxHighlighter>
               </div>
             );
+          } else if (item.type === "object") {
+            return (
+              <div key={i} style={{position: "relative", left: 300, border: "1px solid #ccc", borderRadius: 4, padding: 6.5, marginBottom: 10}}>
+                {Object.keys(item.properties).map((key) => {
+                  return <p key={key} style={{marginBottom: 5}}>{key + ': ' + item.properties[key]}</p>
+                })}
+              </div>
+            )
           }
         })}
     </div>
