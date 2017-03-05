@@ -1,6 +1,9 @@
 import React from 'react'
 import Interpreter from 'js-interpreter'
 
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/styles';
+
 const propertyBlacklist = [
   "Infinity",
   "NaN",
@@ -69,8 +72,8 @@ const StackFrame = ({frame}) => {
   );
 }
 
-export default ({interpStack}) => {
-  const renderHeap = {};
+export default ({interpStack, programText}) => {
+  const rawHeap = [];
 
   const cleanedStack = interpStack
     .filter((frame) => frame.scope)
@@ -82,23 +85,41 @@ export default ({interpStack}) => {
 
         const cleanFrame = {};
         keys.forEach((key) => {
-          cleanFrame[key] = props[key]
+          cleanFrame[key] = props[key];
           if (props[key].type === "object" || props[key].type === "function") {
-            if (!renderHeap[props[key]]) {
-              renderHeap[props[key]] = true;
+            const objectIndex = rawHeap.indexOf(props[key]);
+            if (objectIndex === -1) {
+              rawHeap.push(props[key]);
+              props[key].heapIndex = rawHeap.length-1;
+            } else {
+              props[key].heapIndex = objectIndex;
             }
           }
-          
         });
 
         return cleanFrame;
       }
     );
 
-  console.log(cleanedStack)
+  // renderHeap has to come first
+  const renderHeap = rawHeap.map((item, i) => {
+    console.log(item)
+
+    if (item.type === "function") {
+      return {
+        type: "function",
+        text: programText.substring(item.node.start, item.node.end)
+      }
+    } else if (item.type === "object") {
+      return item;
+    }
+  });
+
+  // add head/tail coordinate pairs to referenceArrows arr while
+  // calculating renderStack
+  const refrenceArrows = [];
 
   let bottomCounter = 0;
-
   const renderStack = cleanedStack.reverse().map((frame) => {
     const toReturn = {
       frame,
@@ -120,7 +141,18 @@ export default ({interpStack}) => {
           ))
         }
 
-        {Object.keys(renderHeap).map((item) => <div style={{position: "relative", left: 300}}>{stringify(item)}</div>)}
+        {renderHeap.map((item, i) => {
+          // render based on item type (ie object, function)
+          if (item.type === "function") {
+            return (
+              <div key={i} style={{position: "relative", left: 300}}>
+                <SyntaxHighlighter language='javascript' style={tomorrow}>
+                  {item.text}
+                </SyntaxHighlighter>
+              </div>
+            );
+          }
+        })}
     </div>
   );
 };

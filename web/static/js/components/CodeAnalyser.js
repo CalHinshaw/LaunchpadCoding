@@ -152,7 +152,7 @@ print(obj.a + ' ' + hi());
 
           </div>
 
-        <StateVisualizer interpStack={this.stateStack}/>
+        <StateVisualizer interpStack={this.stateStack} programText={this.editorText} />
 
       </div>
     );
