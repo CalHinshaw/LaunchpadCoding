@@ -57,20 +57,6 @@ const stringify = (data) => {
   }
 };
 
-const StackObject = ({obj}) => {
-  return (
-    <div />
-  );
-};
-
-const StackFrame = ({frame}) => {
-  console.log(frame)
-  return (
-    <div className="stack-frame">
-      {Object.keys(frame).map((key) => <p key={key}>{key.toString()}: {stringify(frame[key])}</p>)}
-    </div>
-  );
-}
 
 export default ({interpStack, programText}) => {
   const rawHeap = [];
@@ -102,16 +88,32 @@ export default ({interpStack, programText}) => {
     );
 
   // renderHeap has to come first
+  let heapBottomCounter = 0;
   const renderHeap = rawHeap.map((item, i) => {
-    console.log(item)
-
     if (item.type === "function") {
-      return {
+      const fnText = programText.substring(item.node.start, item.node.end);
+      const itemHeight = 25 + 18 * fnText.split('\n').length;
+
+      const toReturn = {
         type: "function",
-        text: programText.substring(item.node.start, item.node.end)
+        text: fnText,
+        arrowY: heapBottomCounter + itemHeight/2
       }
+
+      heapBottomCounter += itemHeight;
+      return toReturn;
+
     } else if (item.type === "object") {
-      return item;
+      const itemHeight = 25 + 18 * (Object.keys(item.properties).length + 2);
+
+      const toReturn = {
+        type: "object",
+        properties: item.properties,
+        arrowY: heapBottomCounter + itemHeight/2
+      }
+
+      heapBottomCounter += itemHeight;
+      return toReturn;
     }
   });
 
@@ -119,17 +121,58 @@ export default ({interpStack, programText}) => {
   // calculating renderStack
   const refrenceArrows = [];
 
-  let bottomCounter = 0;
+  let stackBottomCounter = 0;
   const renderStack = cleanedStack.reverse().map((frame) => {
+
+    // for each variable in frame, if it's an object or function
+    // add it to reference arrows. if it's a primative clean the
+    // data
+
+    const cleanFrame = Object.keys(frame).map((key, keyIndex) => {
+      const val = frame[key];
+
+      if (val.type === "object" || val.type === "function") {
+        refrenceArrows.push({
+          tail: {
+            x: 100,
+            y: 9 + 12 + keyIndex*24
+          },
+          head: {
+            x: 300,
+            y: renderHeap[val.heapIndex].arrowY
+          }
+        });
+
+        return key+": ";
+      } else if (val.type === "undefined") {
+        return key+": undefined";
+      } else if (!val.data) {
+        return key + ": " + val;
+      } else {
+        return key + ": " + val.data;
+      }
+    });
+
+
     const toReturn = {
       frame,
-      bottom: bottomCounter
+      bottom: stackBottomCounter
     };
 
-    bottomCounter += Object.keys(frame).length*30 + 18;
+    stackBottomCounter += Object.keys(frame).length*24 + 18;
 
     return toReturn;
   })
+
+  console.log(refrenceArrows);
+
+
+/*{
+          refrenceArrows.map((arrow, key) => {
+
+          })
+        }*/
+
 
   return (
     <div style={{display: "inline-block", position: "relative"}}>
@@ -161,6 +204,18 @@ export default ({interpStack, programText}) => {
             )
           }
         })}
+
+        
+
+        <svg width="100" height="100" style={{position: "absolute", bottom: 200}} >
+          <defs>
+            <marker id="markerArrow1" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+              <path d="M2,2 L2,11 L10,6 L2,2" />
+            </marker>
+          </defs>
+          <line x1="0" y1="0" x2="94" y2="94" style={{stroke: "#006600", markerEnd: "url(#markerArrow1)"}} />
+
+        </svg>
     </div>
   );
 };
