@@ -143,7 +143,6 @@ print(obj.a + ' ' + hi());
                 >
                   Next
                 </button>
-                <button>Run until complete</button>
                 <button onClick={this._reset.bind(this)}>Edit Code</button>
               </div>
             : <div style={{marginLeft: 15}}>
