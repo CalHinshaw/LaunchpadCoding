@@ -44,6 +44,7 @@ export default @observer class CodeAnalyser extends React.Component {
 var obj = {a: 1, b: 2};
 
 function add(a, b) {
+  var local = obj;
   return a + b;
 }
 
