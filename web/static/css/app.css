@@ -123,12 +123,6 @@ form.link, form.button {
   margin-right: 8px;
 }
 
-.dropdown-status {
-  height: 15px;
-  width: 15px;
-  margin-right: 8px;
-}
-
 .lcol {
   max-width: 600px;
 }
@@ -158,16 +152,6 @@ form.link, form.button {
   cursor: pointer;
   cursor: hand;
 }
-
-.my-dropdown-header:hover .dropdown-status, .my-dropdown-header.hover .dropdown-status img {
-  -ms-animation:wiggle .3s 2;-moz-animation:wiggle .3s 2;-webkit-animation:wiggle .3s 2;animation:wiggle .3s 2;
-}
-
-
-@-ms-keyframes wiggle{0%{-ms-transform:rotate(10deg);}50%{-ms-transform:rotate(-10deg);}100%{-ms-transform:rotate(10deg);}}
-@-moz-keyframes wiggle{0%{-moz-transform:rotate(10deg);}50%{-moz-transform:rotate(-10deg);}100%{-moz-transform:rotate(10deg);}}
-@-webkit-keyframes wiggle{0%{-webkit-transform:rotate(10deg);}50%{-webkit-transform:rotate(-10deg);}100%{-webkit-transform:rotate(10deg);}}
-@keyframes wiggle{0%{transform:rotate(10deg);}50%{transform:rotate(-10deg);}100%{transform:rotate(10deg);}}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

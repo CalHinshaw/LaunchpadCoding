@@ -17,10 +17,10 @@ export default @observer class Dropdown extends React.Component {
 
     return (
       <div className="dropdown">
-        <div className="my-dropdown-header" onClick={this._toggleShow.bind(this)}>
+        <div onClick={this._toggleShow.bind(this)}>
           {this.showBody
-            ? <img className='dropdown-status' src="/images/down_arrow.svg" />
-            : <img className='dropdown-status' src="/images/right_arrow.svg" />
+            ? <img className='test-status' src="/images/down_arrow.svg" />
+            : <img className='test-status' src="/images/right_arrow.svg" />
           }
           {header}
         </div>
