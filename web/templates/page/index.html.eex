@@ -6,8 +6,7 @@
 
 <div class="row marketing">
   <div class="col-lg-6">
-    <h4>Visualizer</h4>
-    <a href="/analyse">Visualize es5 execution</a>
+    <a href="/analyse"><h3>Visualizer</h3></a>
     <p>
       Not done at all. When working with students one of the main things I
       find myself doing is prompting them to play computer and helping them
@@ -20,8 +19,7 @@
   </div>
 
   <div class="col-lg-6">
-    <h4>Mixed Instruction and Assment</h4>
-    <a href="/skills/1">Printing Lesson</a>
+    <a href="/skills/1"><h3>Mixed Instruction and Assment</h3></a>
     <p>
       An interface that only allows printing and prompting for input
       makes specifying functional tests a lot easier and lets you give
