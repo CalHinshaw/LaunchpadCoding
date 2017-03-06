@@ -131,7 +131,16 @@ form.link, form.button {
   position: absolute;
   border-style: solid;
   border-radius: 4px;
+  border: 1px solid #ccc;
   padding: 3px;
+}
+
+.stack-frame p {
+  margin-bottom: 4px;
+}
+
+.heap-element {
+  position: absolute;
 }
 
 .current-marker {
