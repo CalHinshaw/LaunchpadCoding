@@ -135,10 +135,10 @@ export default ({interpStack, programText}) => {
         refrenceArrows.push({
           tail: {
             x: 100,
-            y: 9 + 12 + keyIndex*24
+            y: stackBottomCounter + 4 + (Object.keys(frame).length + 1 - keyIndex)*24
           },
           head: {
-            x: 300,
+            x: 290,
             y: renderHeap[val.heapIndex].arrowY
           }
         });
@@ -165,13 +165,6 @@ export default ({interpStack, programText}) => {
   })
 
   console.log(refrenceArrows);
-
-
-/*{
-          refrenceArrows.map((arrow, key) => {
-
-          })
-        }*/
 
 
   return (
@@ -205,16 +198,26 @@ export default ({interpStack, programText}) => {
           }
         })}
 
-        
 
-        <svg width="100" height="100" style={{position: "absolute", bottom: 200}} >
+        
+        <svg width={800} height={546} style={{position: "absolute", bottom: 0, left: 0}} >
           <defs>
             <marker id="markerArrow1" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
               <path d="M2,2 L2,11 L10,6 L2,2" />
             </marker>
           </defs>
-          <line x1="0" y1="0" x2="94" y2="94" style={{stroke: "#006600", markerEnd: "url(#markerArrow1)"}} />
-
+          {refrenceArrows.map((arrow, key) => {
+            return (
+              <line
+                key={key}
+                x1={arrow.tail.x}
+                y1={546-arrow.tail.y}
+                x2={arrow.head.x}
+                y2={546-arrow.head.y}
+                style={{stroke: "#006600", markerEnd: "url(#markerArrow1)"}}
+              />
+            );
+          })}
         </svg>
     </div>
   );
