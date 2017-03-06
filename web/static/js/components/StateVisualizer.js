@@ -89,7 +89,7 @@ export default ({interpStack, programText}) => {
 
   // renderHeap has to come first
   let heapBottomCounter = 0;
-  const renderHeap = rawHeap.map((item, i) => {
+  const renderHeap = rawHeap.reverse().map((item, i) => {
     if (item.type === "function") {
       const fnText = programText.substring(item.node.start, item.node.end);
       const itemHeight = 25 + 18 * fnText.split('\n').length;
@@ -97,6 +97,7 @@ export default ({interpStack, programText}) => {
       const toReturn = {
         type: "function",
         text: fnText,
+        bottom: heapBottomCounter,
         arrowY: heapBottomCounter + itemHeight/2
       }
 
@@ -109,13 +110,14 @@ export default ({interpStack, programText}) => {
       const toReturn = {
         type: "object",
         properties: item.properties,
+        bottom: heapBottomCounter,
         arrowY: heapBottomCounter + itemHeight/2
       }
 
       heapBottomCounter += itemHeight;
       return toReturn;
     }
-  });
+  }).reverse();
 
   // add head/tail coordinate pairs to referenceArrows arr while
   // calculating renderStack
@@ -135,7 +137,7 @@ export default ({interpStack, programText}) => {
         refrenceArrows.push({
           tail: {
             x: 100,
-            y: stackBottomCounter + 4 + (Object.keys(frame).length + 1 - keyIndex)*24
+            y: stackBottomCounter + 4 + (Object.keys(frame).length - (keyIndex + 1))*24 + 12
           },
           head: {
             x: 290,
@@ -162,10 +164,7 @@ export default ({interpStack, programText}) => {
     stackBottomCounter += Object.keys(frame).length*24 + 18;
 
     return toReturn;
-  })
-
-  console.log(refrenceArrows);
-
+  });
 
   return (
     <div style={{display: "inline-block", position: "relative"}}>
@@ -181,7 +180,7 @@ export default ({interpStack, programText}) => {
           // render based on item type (ie object, function)
           if (item.type === "function") {
             return (
-              <div key={i} style={{position: "relative", left: 300}}>
+              <div key={i} style={{position: "absolute", bottom: item.bottom, left: 300, width: 400}}>
                 <SyntaxHighlighter language='javascript' style={tomorrow}>
                   {item.text}
                 </SyntaxHighlighter>
@@ -189,7 +188,7 @@ export default ({interpStack, programText}) => {
             );
           } else if (item.type === "object") {
             return (
-              <div key={i} style={{position: "relative", left: 300, border: "1px solid #ccc", borderRadius: 4, padding: 6.5, marginBottom: 10}}>
+              <div key={i} style={{position: "absolute", bottom: item.bottom, left: 300, width: 400, border: "1px solid #ccc", borderRadius: 4, padding: 6.5, marginBottom: 10}}>
                 {Object.keys(item.properties).map((key) => {
                   return <p key={key} style={{marginBottom: 5}}>{key + ': ' + item.properties[key]}</p>
                 })}
