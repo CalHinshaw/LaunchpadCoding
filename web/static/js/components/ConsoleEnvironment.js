@@ -235,7 +235,7 @@ const TestResult = observer(({testResult}) => {
 
         {this.props.tests
           ? <Dropdown>
-              <span>
+              <span className="test-status-bar">
                 {numPassingTests === numTests
                   ? <img className='test-status' src="/images/green_check.svg" />
                   : <img className='test-status' src="/images/red_x.svg" />

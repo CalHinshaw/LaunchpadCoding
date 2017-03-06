@@ -123,6 +123,12 @@ form.link, form.button {
   margin-right: 8px;
 }
 
+.dropdown-status {
+  height: 15px;
+  width: 15px;
+  margin-right: 8px;
+}
+
 .lcol {
   max-width: 600px;
 }
@@ -146,6 +152,16 @@ form.link, form.button {
 .current-marker {
   background-color: lightblue;
   position: absolute;
+}
+
+.test-status-bar {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.my-dropdown-header:hover .dropdown-status, .my-dropdown-header.hover .dropdown-status img {
+  width: 20px;
+  height: 20px;
 }
 
 /* Responsive: Portrait tablets and up */
