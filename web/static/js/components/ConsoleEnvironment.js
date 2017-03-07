@@ -60,7 +60,6 @@ const runTest = (program, test) => {
           reason: "Expecting prompt for "+currentStep.for+", program printed \""+text+"\" instead."
         };
       } else if (text !== currentStep.require) {
-        console.log("ding")
         result = {
           status: "failure",
           name: test.name,
@@ -168,6 +167,7 @@ const TestResult = observer(({testResult}) => {
   @observable interpOutput = [];
   @observable editorText = "";
   @observable testResults = [];
+  @observable testHeaderClasses = ["test-status-bar"];
 
   _updateEditorText(text) {
     this.editorText = text;
@@ -195,6 +195,10 @@ const TestResult = observer(({testResult}) => {
     for (let test of tests) {
       testResults.push(runTest(program, test));
     }
+
+    this.testHeaderClasses.replace(["test-status-bar", "smooth-blink"]);
+    setTimeout(() => { this.testHeaderClasses.replace(["test-status-bar"]) }, 301);
+
     return testResults;
   }
 
@@ -235,7 +239,7 @@ const TestResult = observer(({testResult}) => {
 
         {this.props.tests
           ? <Dropdown>
-              <span className="test-status-bar">
+              <span className={this.testHeaderClasses.join(" ")}>
                 {numPassingTests === numTests
                   ? <img className='test-status' src="/images/green_check.svg" />
                   : <img className='test-status' src="/images/red_x.svg" />

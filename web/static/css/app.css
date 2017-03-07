@@ -153,6 +153,16 @@ form.link, form.button {
   cursor: hand;
 }
 
+.smooth-blink {
+  opacity: 1;
+  animation: fade 0.3s ease;
+}
+
+@keyframes fade {
+  0%,100% { opacity: 1 }
+  50% { opacity: 0.4 }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
