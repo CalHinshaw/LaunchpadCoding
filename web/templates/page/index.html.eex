@@ -1,6 +1,6 @@
 <div class="jumbotron">
-  <h2>Some Random Experements in Teaching Programming</h2>
-  <p class="lead">of pretty dubious value and almost no craftsmanship</p>
+  <h2>Some Experements in Teaching Programming</h2>
+  <p class="lead">of dubious value and almost no craftsmanship</p>
   <p style="font-size: 8px">A project by Cal Hinshaw</p>
 </div>
 
@@ -24,6 +24,7 @@
       An interface that only allows printing and prompting for input
       makes specifying functional tests a lot easier and lets you give
       more useful error messages than other testing approaches I've tried.
+      The example lesson is a mockup, not a real lesson.
     </p>
   </div>
 </div>
