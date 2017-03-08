@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h2>Some Experements in Teaching Programming</h2>
+  <h2>Some Experiments in Teaching Programming</h2>
   <p class="lead">of dubious value and almost no craftsmanship</p>
   <p style="font-size: 8px">A project by Cal Hinshaw</p>
 </div>
@@ -13,13 +13,13 @@
       find errors in that process. There's probably a way to visualize what the
       interpreter is doing well enough for self motivated students to make
       progress without intervention. This visualization strategy (which will
-      eventually render the contents of objects and fucntions and have arrows
+      eventually render the contents of objects and functions and have arrows
       showing references) seems promising.
     </p>
   </div>
 
   <div class="col-lg-6">
-    <a href="/skills/1"><h3>Mixed Instruction and Assment</h3></a>
+    <a href="/skills/1"><h3>Mixed Instruction and Assessment</h3></a>
     <p>
       An interface that only allows printing and prompting for input
       makes specifying functional tests a lot easier and lets you give
@@ -28,3 +28,5 @@
     </p>
   </div>
 </div>
+
+
