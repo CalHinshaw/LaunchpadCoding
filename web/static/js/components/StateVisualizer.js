@@ -4,6 +4,17 @@ import Interpreter from 'js-interpreter'
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/styles';
 
+/*
+TODO:
+- group interpreter steps
+- smooth arrows
+- right-justify stack frame keys so arrow associations are clearer
+- draw reference arrows between objects in the heap on the right side
+- show what just changed more explicitly
+- as the interpreter runs sub-expressions annotate the code with their
+  results so users can see exactly how their progam state is changing
+*/
+
 const propertyBlacklist = [
   "Infinity",
   "NaN",
@@ -57,39 +68,54 @@ const stringify = (data) => {
   }
 };
 
+// Seperate the data from the interpreter's stateStack into callstack and
+// heap data structures ready to lay out. Returns an Array for each.
+const cleanStackAndHeap = ( interpStack ) => {
+  const cleanHeap = [];
+
+  const cleanStack = interpStack
+    .filter((frame) => frame.scope)
+    .map((frame) => {
+      const props = frame.scope.properties;
+      const keys = Object.keys(props)
+        .filter((prop) => !propertyBlacklist.includes(prop.toString()));
+
+      const cleanFrame = {};
+      keys.forEach((key) => {
+        cleanFrame[key] = props[key];
+        if (props[key].type === "object" || props[key].type === "function") {
+          const objectIndex = cleanHeap.indexOf(props[key]);
+          if (objectIndex === -1) {
+            cleanHeap.push(props[key]);
+            props[key].heapIndex = cleanHeap.length-1;
+          } else {
+            props[key].heapIndex = objectIndex;
+          }
+        }
+      });
+
+      return cleanFrame;
+    });
+
+  return {
+    cleanStack,
+    cleanHeap
+  };
+};
+
 
 export default ({interpStack, programText}) => {
-  const rawHeap = [];
+  // 1) clean the data from the interpreter. The interpreter implicitly uses
+  // the native JS runtime's heap as it's own, so we need to assemble an
+  // explicit heap as we clean the globally scoped identifiers from each frame.
+  // 2) lay the heap out calculating where arrows are going to point
+  // 3) lay the stack out and populate an array of arrows we're going to draw
+  // 4) render
+  const {cleanStack, cleanHeap} = cleanStackAndHeap(interpStack);
 
-  const cleanedStack = interpStack
-    .filter((frame) => frame.scope)
-    .map(
-      (frame) => {
-        const props = frame.scope.properties;
-        const keys = Object.keys(props)
-          .filter((prop) => !propertyBlacklist.includes(prop.toString()));
-
-        const cleanFrame = {};
-        keys.forEach((key) => {
-          cleanFrame[key] = props[key];
-          if (props[key].type === "object" || props[key].type === "function") {
-            const objectIndex = rawHeap.indexOf(props[key]);
-            if (objectIndex === -1) {
-              rawHeap.push(props[key]);
-              props[key].heapIndex = rawHeap.length-1;
-            } else {
-              props[key].heapIndex = objectIndex;
-            }
-          }
-        });
-
-        return cleanFrame;
-      }
-    );
-
-  // renderHeap has to come first
+  // renderHeap has to come first so we can do arrow layout in single pass
   let heapBottomCounter = 0;
-  const renderHeap = rawHeap.reverse().map((item, i) => {
+  const renderHeap = cleanHeap.reverse().map((item, i) => {
     if (item.type === "function") {
       const fnText = programText.substring(item.node.start, item.node.end);
       const itemHeight = 25 + 18 * fnText.split('\n').length;
@@ -119,17 +145,11 @@ export default ({interpStack, programText}) => {
     }
   }).reverse();
 
-  // add head/tail coordinate pairs to referenceArrows arr while
-  // calculating renderStack
+
   const refrenceArrows = [];
 
   let stackBottomCounter = 0;
-  const renderStack = cleanedStack.reverse().map((frame) => {
-
-    // for each variable in frame, if it's an object or function
-    // add it to reference arrows. if it's a primative clean the
-    // data
-
+  const renderStack = cleanStack.reverse().map((frame) => {
     const cleanFrame = Object.keys(frame).map((key, keyIndex) => {
       const val = frame[key];
 
@@ -155,14 +175,12 @@ export default ({interpStack, programText}) => {
       }
     });
 
-
     const toReturn = {
       frame,
       bottom: stackBottomCounter
     };
 
     stackBottomCounter += Object.keys(frame).length*24 + 18;
-
     return toReturn;
   });
 
