@@ -14,6 +14,9 @@ export default class HelloWorldSkill extends React.Component {
       <div>
         <h1>Printing to the Console: Let's Say Hello</h1>
         <p className="lcol">
+          NOTE: THIS IS ALL FILLER TEXT
+        </p>
+        <p className="lcol">
           Printing is an exciting skill because it's both the only one we need to
           write our first program and is the easiest way to see what
           our code is doing. In the next few minutes we're going to take
@@ -49,17 +52,11 @@ export default class HelloWorldSkill extends React.Component {
         </p>
         <ConsoleEnvironment {...printingAnyString} />
         
-        <h3>Exercise 3: Experement with Printing</h3>
+        <h3>Exercise 3: Experiment with Printing</h3>
         <p className="lcol">
-          The most important lesson I've learned in my career about how
-          to improve at programming is that 
-
-           ever learned about how to learn
-          When it comes to learning how to program the most
-          important thing I can possibly convince you of is
-          that nothing will help you improve faster than experementing
+          I don't know of anything that will help you improve faster than experimenting
           for yourself and asking your own questions. There are no tests
-          in this exercise - it's for you to experement however you want.
+          in this exercise - it's for you to experiment however you want.
           I do have a few questions to prompt your exploration, though, if
           you want them:
         </p>
@@ -70,10 +67,13 @@ export default class HelloWorldSkill extends React.Component {
         </ul>
         <p className="lcol">
           I don't expect you to be able to answer all of these right away, but
-          that shouln't stop you from fearlessly playing around for a few minutes. 
+          that shouldn't stop you from fearlessly playing around for a few minutes. 
         </p>
         <ConsoleEnvironment />
       </div>
     );
   }
 }
+
+
+
